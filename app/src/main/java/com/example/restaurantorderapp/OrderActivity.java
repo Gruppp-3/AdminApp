@@ -20,6 +20,7 @@ public class OrderActivity extends AppCompatActivity {
     private ArrayAdapter<String> menuAdapter;
     private ArrayList<String> selectedItems;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
