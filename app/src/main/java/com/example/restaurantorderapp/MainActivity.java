@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private GridLayout tableGrid;
 
+
     private String[] tables = {"Bord 1", "Bord 2", "Bord 3", "Bord 4", "Bord 5", "Bord 6"};
 
     @Override
