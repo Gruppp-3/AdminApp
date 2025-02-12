@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginTop="16dp"
-        android:choiceMode="none"/>
+        android:choiceMode="none" />
 
     <Button
         android:id="@+id/placeOrderButton"
