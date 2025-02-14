@@ -1,6 +1,7 @@
 package com.example.restaurantorderapp;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -96,11 +97,21 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void placeOrder(String tableNumber) {
-        String orderSummary = "Beställning för " + tableNumber + ":\n";
+        StringBuilder orderSummary = new StringBuilder("Beställning för " + tableNumber + ":\n");
         for (String item : selectedItems) {
-            orderSummary += item + " x" + orderCount.get(item) + "\n";
+            orderSummary.append(item).append(" x").append(orderCount.get(item)).append("\n");
         }
-        Toast.makeText(this, orderSummary, Toast.LENGTH_LONG).show();
+
+        // Store order using OrderManager
+        OrderManager.getInstance().addOrder(orderSummary.toString());
+
+        // Send the order to KitchenActivity
+        Intent intent = new Intent(OrderActivity.this, KitchenActivity.class);
+        intent.putExtra("ORDER_SUMMARY", orderSummary.toString());
+        startActivity(intent);
 
     }
+
+
+
 }

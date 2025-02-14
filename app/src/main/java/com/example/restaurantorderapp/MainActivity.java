@@ -1,5 +1,6 @@
 package com.example.restaurantorderapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,10 +12,12 @@ import androidx.core.content.ContextCompat;
 public class MainActivity extends AppCompatActivity {
 
     private GridLayout tableGrid;
+    private Button buttonKitchen;
 
 
     private String[] tables = {"Bord 1", "Bord 2", "Bord 3", "Bord 4", "Bord 5", "Bord 6"};
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
             tableGrid.addView(tableButton);
         }
+        // Initialize the Kitchen button
+        buttonKitchen = findViewById(R.id.button_kitchen);
+        buttonKitchen.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, KitchenActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     private void openOrderActivity(String tableNumber) {
