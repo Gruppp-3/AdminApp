@@ -7,9 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-
-
-
     <!-- Header Container -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/headerContainer"
@@ -79,7 +76,8 @@
         android:id="@+id/footerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient_background"
+        android:paddingBottom="28dp"
+    android:background="@drawable/gradient_background"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
