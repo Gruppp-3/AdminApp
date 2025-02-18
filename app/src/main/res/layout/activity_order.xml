@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Skicka Beställning" />
+            android:text="Lägga till beställning" />
 
         <Button
             android:id="@+id/backButton"

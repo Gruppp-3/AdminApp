@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "402876817741",
+    "project_id": "restaurantorderapp-85613",
+    "storage_bucket": "restaurantorderapp-85613.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402876817741:android:80a5dee9af7a36e3aed704",
+        "android_client_info": {
+          "package_name": "com.example.restaurantorderapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-0QrTzlfFqHlWLy0eeTDvhEpq0Iq1fw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
