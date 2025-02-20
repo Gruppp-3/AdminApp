@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:text="Hantera Beställningar"
         android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:gravity="center" />
+
 
 </LinearLayout>

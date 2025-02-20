@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:padding="20dp">
 
-
+    <!-- Logotyp/Bild -->
     <ImageView
         android:id="@+id/adminLogo"
         android:layout_width="150dp"
@@ -16,43 +16,47 @@
         android:contentDescription="Admin Panel Logo"
         android:layout_marginBottom="16dp"/>
 
+    <!-- Titel -->
     <TextView
+        android:id="@+id/adminTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hantera Meny"
+        android:text="Admin Panel"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:gravity="center"
         android:layout_marginBottom="24dp"/>
 
+    <!-- Knappar -->
     <Button
-        android:id="@+id/addMenuItemBtn"
+        android:id="@+id/manageOrdersBtn"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:text="Lägg till menyobjekt"
+        android:text="Hantera Beställningar"
         android:backgroundTint="@color/purple_500"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:layout_marginBottom="12dp"/>
 
     <Button
-        android:id="@+id/editMenuItemBtn"
+        android:id="@+id/manageMenuBtn"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:text="Redigera menyobjekt"
+        android:text="Hantera Meny"
         android:backgroundTint="@color/purple_500"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:layout_marginBottom="12dp"/>
 
     <Button
-        android:id="@+id/deleteMenuItemBtn"
+        android:id="@+id/bookingBtn"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:text="Ta bort menyobjekt"
+        android:text="Visa Bokningar"
         android:backgroundTint="@color/purple_500"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:layout_marginBottom="12dp"/>
+
 </LinearLayout>

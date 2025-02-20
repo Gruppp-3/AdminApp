@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">RestaurantOrderApp</string>
+    <string name="admin_login">Admin Login</string>
+    <string name="username_hint">Användarnamn</string>
+    <string name="password_hint">Lösenord</string>
+    <string name="login">Logga in</string>
 </resources>
+
