@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class CentralScreenActivity extends AppCompatActivity{
+public class CentralScreenActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -22,7 +22,7 @@ public class CentralScreenActivity extends AppCompatActivity{
 
         LinearLayout ordersContainer = findViewById(R.id.ordersContainer);
 
-        // Fetch all kompleted orders
+        // Fetch all completed orders
         List<String> readyOrders = OrderManager.getInstance().getReadyOrders();
 
         // Store orders grouped by tables
@@ -30,21 +30,29 @@ public class CentralScreenActivity extends AppCompatActivity{
 
         for (String order : readyOrders) {
             String tableNumber = extractTableNumber(order);
-            if (tablesOrdersMap.containsKey(tableNumber)) {
+
+            // Ensure "klar" is only added once
+            if (!tablesOrdersMap.containsKey(tableNumber)) {
                 tablesOrdersMap.put(tableNumber, new StringBuilder());
             }
-            Objects.requireNonNull(tablesOrdersMap.get(tableNumber)).append(order.replace("Beställning för Bord"
-                    + tableNumber + ": ", "")).append("\n");
+
+            Objects.requireNonNull(tablesOrdersMap.get(tableNumber))
+                    .append(order.replace("Beställning för Bord " + tableNumber, ""))
+                    .append("\n");
         }
-        // Display grouped orders in UI
+
+        // Clear old UI elements
+        ordersContainer.removeAllViews();
+
+        // Display grouped orders
         if (!tablesOrdersMap.isEmpty()) {
             for (Map.Entry<String, StringBuilder> entry : tablesOrdersMap.entrySet()) {
                 String tableNumber = entry.getKey();
                 String orderDetails = entry.getValue().toString();
 
-                // Display table number
+                // Display table number with "klar"
                 TextView tableTextView = new TextView(this);
-                tableTextView.setText("Bord " + tableNumber + " är klar!");
+                tableTextView.setText("Bord " + tableNumber + " klar!");
                 tableTextView.setTextSize(22);
                 tableTextView.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
 
@@ -54,7 +62,7 @@ public class CentralScreenActivity extends AppCompatActivity{
                 orderTextView.setTextSize(18);
                 orderTextView.setPadding(0, 5, 0, 10);
 
-                // Create a button fo "Mat klar"
+                // Create "Mat Klar" button
                 Button foodReadyButton = new Button(this);
                 foodReadyButton.setText("Mat klar");
                 foodReadyButton.setOnClickListener(v -> markOrderAsCollected(tableNumber));
@@ -64,16 +72,13 @@ public class CentralScreenActivity extends AppCompatActivity{
                 ordersContainer.addView(orderTextView);
                 ordersContainer.addView(foodReadyButton);
             }
-
         } else {
-            // No ready orders
+            // Show "No Orders" message
             TextView noOrdersTextView = new TextView(this);
             noOrdersTextView.setText("Inga färdiga beställningar än");
             noOrdersTextView.setTextSize(20);
             ordersContainer.addView(noOrdersTextView);
         }
-
-
     }
 
     private void markOrderAsCollected(String tableNumber) {
@@ -81,11 +86,9 @@ public class CentralScreenActivity extends AppCompatActivity{
         recreate(); // Refresh the screen
     }
 
-    private String extractTableNumber(String orderSummary){
+    public static String extractTableNumber(String orderSummary) {
         if (orderSummary.startsWith("Beställning för Bord ")) {
-
             return orderSummary.split(":")[0].replace("Beställning för Bord ", "").trim();
-
         }
         return "Okänt bord";
     }

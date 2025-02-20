@@ -45,7 +45,7 @@ public class OrderManager {
         Iterator<String> iterator = readyOrders.iterator();
         while (iterator.hasNext()){
             String orders = iterator.next();
-            if(orders.contains("Beställning för Bord " + tableNumber)){
+            if(orders.contains("Beställning för Bord " + tableNumber + " klar")){
                 iterator.remove();
             }
         }
