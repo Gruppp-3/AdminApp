@@ -82,7 +82,7 @@ public class OrderActivity extends AppCompatActivity {
         builder.setTitle("Välj antal för: " + dish);
 
         final NumberPicker numberPicker = new NumberPicker(this);
-        numberPicker.setMinValue(1);
+        numberPicker.setMinValue(0);
         numberPicker.setMaxValue(10);
         builder.setView(numberPicker);
 

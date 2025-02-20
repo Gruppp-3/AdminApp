@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             tableButton.setText(table);
             tableButton.setTextSize(22);
             tableButton.setTextColor(ContextCompat.getColor(this, android.R.color.white));
-            tableButton.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_blue_dark));
+            tableButton.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
             tableButton.setPadding(24, 24, 24, 24);
             tableButton.setAllCaps(false);
 
