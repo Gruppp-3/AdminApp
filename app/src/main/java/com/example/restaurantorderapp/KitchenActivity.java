@@ -20,7 +20,7 @@ public class KitchenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_kitchen_screen);
 
         ordersContainer = findViewById(R.id.ordersContainer);
-        Button backButton = findViewById(R.id.button_back_to_main);
+
 
         // Fetch all orders
         List<String> allOrders = OrderManager.getInstance().getOrders();
@@ -56,7 +56,14 @@ public class KitchenActivity extends AppCompatActivity {
                 // "Mat klar" Button
                 Button foodReadyButton = new Button(this);
                 foodReadyButton.setText("Mat klar");
-                foodReadyButton.setOnClickListener(v -> markOrderAsCompleted(tableNumber));
+                foodReadyButton.setOnClickListener(v -> {
+                    markOrderAsCompleted(tableNumber);
+                    Intent intent = new Intent(KitchenActivity.this, CentralScreenActivity.class);
+                    startActivity(intent);
+                });
+
+
+
 
                 // Add to orderRow layout
                 orderRow.addView(tableTextView);
@@ -81,13 +88,7 @@ public class KitchenActivity extends AppCompatActivity {
             ordersContainer.addView(noOrdersText);
         }
 
-        // Back button functionality
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(KitchenActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        });
+
     }
 
     private void markOrderAsCompleted(String tableNumber) {

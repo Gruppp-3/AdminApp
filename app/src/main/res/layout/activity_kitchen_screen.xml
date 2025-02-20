@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/orderTextView"
-        app:layout_constraintBottom_toTopOf="@id/button_back_to_main"
+
         android:fillViewport="true">
 
         <LinearLayout
@@ -38,19 +38,6 @@
             android:padding="16dp" />
     </ScrollView>
 
-    <!-- Back Button as Icon -->
-    <Button
-        android:id="@+id/button_back_to_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tillbaka"
-        android:textSize="18sp"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_blue_dark"
-        android:padding="12dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

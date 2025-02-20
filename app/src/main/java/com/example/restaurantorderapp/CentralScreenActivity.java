@@ -2,6 +2,7 @@ package com.example.restaurantorderapp;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +25,6 @@ public class CentralScreenActivity extends AppCompatActivity {
 
         // Fetch all completed orders
         List<String> readyOrders = OrderManager.getInstance().getReadyOrders();
-
         // Store orders grouped by tables
         Map<String, StringBuilder> tablesOrdersMap = new HashMap<>();
 
@@ -36,19 +36,15 @@ public class CentralScreenActivity extends AppCompatActivity {
                 tablesOrdersMap.put(tableNumber, new StringBuilder());
             }
 
-            Objects.requireNonNull(tablesOrdersMap.get(tableNumber))
-                    .append(order.replace("Beställning för Bord " + tableNumber, ""))
-                    .append("\n");
+            // Add order details to the corresponding table
+            Objects.requireNonNull(tablesOrdersMap.get(tableNumber)).append(order).append("\n");
         }
-
-        // Clear old UI elements
-        ordersContainer.removeAllViews();
 
         // Display grouped orders
         if (!tablesOrdersMap.isEmpty()) {
             for (Map.Entry<String, StringBuilder> entry : tablesOrdersMap.entrySet()) {
                 String tableNumber = entry.getKey();
-                String orderDetails = entry.getValue().toString();
+                //String orderDetails = entry.getValue().toString();
 
                 // Display table number with "klar"
                 TextView tableTextView = new TextView(this);
@@ -57,20 +53,13 @@ public class CentralScreenActivity extends AppCompatActivity {
                 tableTextView.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
 
                 // Display order details
-                TextView orderTextView = new TextView(this);
-                orderTextView.setText(orderDetails);
-                orderTextView.setTextSize(18);
-                orderTextView.setPadding(0, 5, 0, 10);
-
-                // Create "Mat Klar" button
-                Button foodReadyButton = new Button(this);
-                foodReadyButton.setText("Mat klar");
-                foodReadyButton.setOnClickListener(v -> markOrderAsCollected(tableNumber));
+                TextView orderDetailsTextView = new TextView(this);
+                //orderDetailsTextView.setText(orderDetails);
+                orderDetailsTextView.setTextSize(18);
 
                 // Add elements to UI
                 ordersContainer.addView(tableTextView);
-                ordersContainer.addView(orderTextView);
-                ordersContainer.addView(foodReadyButton);
+                ordersContainer.addView(orderDetailsTextView);
             }
         } else {
             // Show "No Orders" message
@@ -79,11 +68,6 @@ public class CentralScreenActivity extends AppCompatActivity {
             noOrdersTextView.setTextSize(20);
             ordersContainer.addView(noOrdersTextView);
         }
-    }
-
-    private void markOrderAsCollected(String tableNumber) {
-        OrderManager.getInstance().removeOrderByTable(tableNumber);
-        recreate(); // Refresh the screen
     }
 
     public static String extractTableNumber(String orderSummary) {
