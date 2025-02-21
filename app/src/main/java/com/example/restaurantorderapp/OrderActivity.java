@@ -62,8 +62,8 @@ public class OrderActivity extends AppCompatActivity {
         // Hitta tillbaka-knappen
         Button backButton = findViewById(R.id.backButton);
 
-        // När man trycker på tillbaka-knappen
-        backButton.setOnClickListener(v -> finish()); // Stänger OrderActivity och går tillba
+
+        backButton.setOnClickListener(v -> finish());
         menuListView.setOnItemClickListener((parent, view, position, id) -> {
             String selectedDish = (String) menuListView.getItemAtPosition(position);
             showQuantityDialog(selectedDish);
@@ -87,30 +87,48 @@ public class OrderActivity extends AppCompatActivity {
         builder.setView(numberPicker);
 
         builder.setPositiveButton("OK", (dialog, which) -> {
-            orderCount.put(dish, numberPicker.getValue());
-            selectedItems.add(dish);
-            Toast.makeText(OrderActivity.this, dish + " x" + numberPicker.getValue() + " tillagd", Toast.LENGTH_SHORT).show();
+            int quantity = numberPicker.getValue();
+
+            // Om antalet är 0, så ska maträtten inte läggas till
+            if (quantity > 0) {
+                orderCount.put(dish, quantity);
+                selectedItems.add(dish);
+                Toast.makeText(OrderActivity.this, dish + " x" + quantity + " tillagd", Toast.LENGTH_SHORT).show();
+            } else {
+
+                Toast.makeText(OrderActivity.this, dish + " togs bort", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        builder.setNegativeButton("Avbryt", (dialog, which) -> dialog.dismiss());
-        builder.show();
+        builder.setNegativeButton("Avbryt", (dialog, which) -> {
+            dialog.dismiss();
+        });
+
+        builder.create().show();
     }
 
+
     private void placeOrder(String tableNumber) {
+        // Kontrollera om några maträtter har valts
+        if (selectedItems.isEmpty()) {
+            Toast.makeText(OrderActivity.this, "Du måste välja minst en maträtt för att fortsätta", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         StringBuilder orderSummary = new StringBuilder("Beställning för " + tableNumber + ":\n");
         for (String item : selectedItems) {
             orderSummary.append(item).append(" x").append(orderCount.get(item)).append("\n");
         }
 
-        // Store order using OrderManager
+        // Spara beställningen med OrderManager
         OrderManager.getInstance().addOrder(orderSummary.toString());
 
-        // Send the order to KitchenActivity
+        // Skicka beställningen till KitchenActivity
         Intent intent = new Intent(OrderActivity.this, KitchenActivity.class);
         intent.putExtra("ORDER_SUMMARY", orderSummary.toString());
         startActivity(intent);
-
     }
+
 
 
 

@@ -26,17 +26,14 @@ public class OrderManager {
         return new ArrayList<>(orders);
     }
 
-    public void setOrders(List<String> updatedOrders) {
-        orders.clear();
-        orders.addAll(updatedOrders);
-    }
+
     public void markOrderReady(String tableNumber) {
         Iterator<String> iterator = orders.iterator();
         while (iterator.hasNext()) {
             String order = iterator.next();
             if (order.contains("Bord " + tableNumber)) {
                 iterator.remove();
-                readyOrders.add("Beställning för Bord " + tableNumber + " klar");
+                readyOrders.add("Beställning för Bord " + tableNumber);
                 break;
             }
         }

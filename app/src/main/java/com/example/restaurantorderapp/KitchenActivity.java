@@ -91,32 +91,6 @@ public class KitchenActivity extends AppCompatActivity {
 
     }
 
-    private void markOrderAsCompleted(String tableNumber) {
-        OrderManager.getInstance().removeOrderByTable(tableNumber);
-
-        // Find and remove only the completed order from the UI
-        runOnUiThread(() -> {
-            for (int i = 0; i < ordersContainer.getChildCount(); i++) {
-                View view = ordersContainer.getChildAt(i);
-                if (view instanceof LinearLayout) {
-                    TextView tableTextView = (TextView) ((LinearLayout) view).getChildAt(0);
-                    if (tableTextView.getText().toString().contains("Bord " + tableNumber)) {
-                        ordersContainer.removeViewAt(i); // Remove the specific order row
-                        break; // Exit loop since order is removed
-                    }
-                }
-            }
-
-            // If all orders are completed, show "Inga beställningar än"
-            if (ordersContainer.getChildCount() == 0) {
-                TextView noOrdersText = new TextView(KitchenActivity.this);
-                noOrdersText.setText("Inga beställningar än");
-                noOrdersText.setTextSize(20);
-                noOrdersText.setPadding(0, 20, 0, 0);
-                ordersContainer.addView(noOrdersText);
-            }
-        });
-    }
 
 
     private String extractTableNumber(String orderSummary) {
