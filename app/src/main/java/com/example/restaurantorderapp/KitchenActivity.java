@@ -35,6 +35,7 @@ public class KitchenActivity extends AppCompatActivity {
             tableOrdersMap.get(tableNumber).append(order.replace("Beställning för Bord " + tableNumber + ": ", "")).append("\n");
         }
 
+
         // Display tables and orders
         if (!tableOrdersMap.isEmpty()) {
             for (Map.Entry<String, StringBuilder> entry : tableOrdersMap.entrySet()) {
@@ -57,11 +58,10 @@ public class KitchenActivity extends AppCompatActivity {
                 Button foodReadyButton = new Button(this);
                 foodReadyButton.setText("Mat klar");
                 foodReadyButton.setOnClickListener(v -> {
-                    markOrderAsCompleted(tableNumber);
+                    OrderManager.getInstance().markOrderReady(tableNumber);
                     Intent intent = new Intent(KitchenActivity.this, CentralScreenActivity.class);
                     startActivity(intent);
                 });
-
 
 
 

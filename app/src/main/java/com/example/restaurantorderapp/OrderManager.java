@@ -30,12 +30,19 @@ public class OrderManager {
         orders.clear();
         orders.addAll(updatedOrders);
     }
-    public void markOrderReady(String order){
-        if(orders.contains(order)){
-            orders.remove(order);
-            readyOrders.add(order);
+    public void markOrderReady(String tableNumber) {
+        Iterator<String> iterator = orders.iterator();
+        while (iterator.hasNext()) {
+            String order = iterator.next();
+            if (order.contains("Bord " + tableNumber)) {
+                iterator.remove();
+                readyOrders.add("Beställning för Bord " + tableNumber + " klar");
+                break;
+            }
         }
     }
+
+
 
     public List<String> getReadyOrders() {
         return new ArrayList<>(readyOrders);
