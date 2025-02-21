@@ -29,6 +29,7 @@ public class CentralScreenActivity extends AppCompatActivity {
         Map<String, StringBuilder> tablesOrdersMap = new HashMap<>();
 
         for (String order : readyOrders) {
+
             String tableNumber = extractTableNumber(order);
 
             // Ensure "klar" is only added once

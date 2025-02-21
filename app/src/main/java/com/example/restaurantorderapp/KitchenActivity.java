@@ -80,6 +80,7 @@ public class KitchenActivity extends AppCompatActivity {
                 ordersContainer.addView(orderDetailsText);
             }
         } else {
+
             // No orders available
             TextView noOrdersText = new TextView(this);
             noOrdersText.setText("Inga beställningar än");
