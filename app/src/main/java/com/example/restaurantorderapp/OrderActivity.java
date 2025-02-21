@@ -115,6 +115,7 @@ public class OrderActivity extends AppCompatActivity {
             return;
         }
 
+
         StringBuilder orderSummary = new StringBuilder("Beställning för " + tableNumber + ":\n");
         for (String item : selectedItems) {
             orderSummary.append(item).append(" x").append(orderCount.get(item)).append("\n");
