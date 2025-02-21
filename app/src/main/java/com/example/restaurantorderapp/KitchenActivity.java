@@ -57,11 +57,10 @@ public class KitchenActivity extends AppCompatActivity {
                 Button foodReadyButton = new Button(this);
                 foodReadyButton.setText("Mat klar");
                 foodReadyButton.setOnClickListener(v -> {
-                    markOrderAsCompleted(tableNumber);
+                    OrderManager.getInstance().markOrderReady(tableNumber);
                     Intent intent = new Intent(KitchenActivity.this, CentralScreenActivity.class);
                     startActivity(intent);
                 });
-
 
 
 
