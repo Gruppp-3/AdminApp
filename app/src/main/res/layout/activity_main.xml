@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -35,7 +34,7 @@
             android:gravity="center"
             android:text="Bord Servering"
             android:textColor="#3F51B5"
-            android:textSize="50sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginHorizontal="16dp"
             app:layout_constraintStart_toEndOf="@id/logoImageView"
