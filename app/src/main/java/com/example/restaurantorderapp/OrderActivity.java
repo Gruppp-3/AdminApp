@@ -89,13 +89,21 @@ public class OrderActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", (dialog, which) -> {
             int quantity = numberPicker.getValue();
 
-            // Om antalet är 0, så ska maträtten inte läggas till
+            // Om antalet är 0, ta bort rätten från beställningen
             if (quantity > 0) {
+                // Om rätten redan finns i beställningen, uppdatera mängden
+                if (orderCount.containsKey(dish)) {
+                    selectedItems.remove(dish);  // Ta bort den tidigare beställningen
+                }
                 orderCount.put(dish, quantity);
-                selectedItems.add(dish);
+                selectedItems.add(dish);  // Lägg till rätten med ny mängd
                 Toast.makeText(OrderActivity.this, dish + " x" + quantity + " tillagd", Toast.LENGTH_SHORT).show();
             } else {
-
+                // Om mängden är 0, ta bort rätten helt
+                if (orderCount.containsKey(dish)) {
+                    orderCount.remove(dish);  // Ta bort från orderCount
+                    selectedItems.remove(dish);  // Ta bort från selectedItems
+                }
                 Toast.makeText(OrderActivity.this, dish + " togs bort", Toast.LENGTH_SHORT).show();
             }
         });
