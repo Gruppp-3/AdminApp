@@ -9,6 +9,7 @@ public class OrderManager {
     private final List<String> orders;
     private final List<String> readyOrders;
 
+
     private OrderManager(){
         orders = new ArrayList<>();
         readyOrders = new ArrayList<>();
