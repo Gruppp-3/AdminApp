@@ -35,18 +35,20 @@ public interface ApiService {
     @GET("api/v1/menu")
     Call<List<MenuItem>> getMenuItems();
 
-    @GET("api/v1/menu/today")
+    // Add these new lunch management endpoints
+    @GET("api/v1/lunch/today")
     Call<List<Map<String, Object>>> getTodayLunch();
 
-    @GET("api/v1/menu/weekly")
+    @GET("api/v1/lunch/weekly")
     Call<Map<String, List<Map<String, Object>>>> getWeeklyLunch();
 
-    @POST("api/v1/menu")
-    Call<Map<String, Object>> createMenuItem(@Body Map<String, Object> menuItem);
+    @POST("api/v1/lunch/today")
+    Call<Map<String, Object>> addLunchDish(@Body Map<String, Object> lunchDish);
 
-    @PUT("api/v1/menu/{id}")
-    Call<Map<String, Object>> updateMenuItem(@Path("id") Long id, @Body Map<String, Object> menuItem);
+    @PUT("api/v1/lunch/today/{id}")
+    Call<Map<String, Object>> updateLunchDish(@Path("id") Long id, @Body Map<String, Object> lunchDish);
 
-    @DELETE("api/v1/menu/{id}")
-    Call<Void> deleteMenuItem(@Path("id") Long id);
+    @DELETE("api/v1/lunch/today/{id}")
+    Call<Void> deleteLunchDish(@Path("id") Long id);
+
 }

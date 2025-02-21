@@ -56,6 +56,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         TextView textName;
         TextView textDateTime;
         TextView textTableStatus;
+        TextView textPeopleCount;  // Added field for people count
         //Button buttonEdit;
         Button buttonDelete;
 
@@ -64,18 +65,29 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
             textName = itemView.findViewById(R.id.textName);
             textDateTime = itemView.findViewById(R.id.textDateTime);
             textTableStatus = itemView.findViewById(R.id.textTableStatus);
+            textPeopleCount = itemView.findViewById(R.id.textPeopleCount);  // Initialize new TextView
             //buttonEdit = itemView.findViewById(R.id.buttonEdit);
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
         }
 
         void bind(Booking booking, BookingActionListener listener) {
-            // Tid på formatet HH:MM
+            // Format time (HH:MM)
             String formattedTime = booking.getTime().substring(0, 5);
+
+            // Set name
             textName.setText(booking.getName());
+
+            // Set date and time
             textDateTime.setText(String.format("Datum: %s, Tid: %s",
                     booking.getDate(), formattedTime));
+
+            // Set table number
             String displayTable = "Bord " + booking.getTableNumber().toString();
             textTableStatus.setText(displayTable);
+
+            // Set people count
+            String displayPeople = "Antal gäster: " + booking.getPeopleCount().toString();
+            textPeopleCount.setText(displayPeople);
 
             //buttonEdit.setOnClickListener(v -> listener.onEdit(booking));
             buttonDelete.setOnClickListener(v -> listener.onDelete(booking));
