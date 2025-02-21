@@ -70,6 +70,7 @@ public class CentralScreenActivity extends AppCompatActivity {
         }
     }
 
+
     public static String extractTableNumber(String orderSummary) {
         if (orderSummary.startsWith("Beställning för Bord ")) {
             return orderSummary.split(":")[0].replace("Beställning för Bord ", "").trim();

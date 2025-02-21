@@ -35,6 +35,7 @@ public class KitchenActivity extends AppCompatActivity {
             tableOrdersMap.get(tableNumber).append(order.replace("Beställning för Bord " + tableNumber + ": ", "")).append("\n");
         }
 
+
         // Display tables and orders
         if (!tableOrdersMap.isEmpty()) {
             for (Map.Entry<String, StringBuilder> entry : tableOrdersMap.entrySet()) {
