@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AdminActivity extends AppCompatActivity {
     private static final String TAG = "AdminActivity";
+    private Button manageStaffBtn, manageMenuBtn, bookingBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,19 +19,19 @@ public class AdminActivity extends AppCompatActivity {
         Log.d(TAG, "AdminActivity created");
 
         // Find buttons
-        Button manageOrdersBtn = findViewById(R.id.manageOrdersBtn);
-        Button manageMenuBtn = findViewById(R.id.manageMenuBtn);
-        Button bookingBtn = findViewById(R.id.bookingBtn);
+        manageStaffBtn = findViewById(R.id.manageStaffBtn);
+        manageMenuBtn = findViewById(R.id.manageMenuBtn);
+        bookingBtn = findViewById(R.id.bookingBtn);
 
         // Set up click listeners with error handling
-        manageOrdersBtn.setOnClickListener(view -> {
-            Log.d(TAG, "Orders button clicked");
+        manageStaffBtn.setOnClickListener(view -> {
+            Log.d(TAG, "Manage Staff button clicked");
             try {
-                Intent intent = new Intent(AdminActivity.this, ManageOrdersActivity.class);
+                Intent intent = new Intent(AdminActivity.this, ManagePersonalActivity.class);
                 startActivity(intent);
             } catch (Exception e) {
-                Log.e(TAG, "Error starting ManageOrdersActivity: " + e.getMessage());
-                Toast.makeText(this, "Kunde inte öppna beställningshantering", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Error starting ManagePersonalActivity: " + e.getMessage());
+                Toast.makeText(this, "Kunde inte öppna personalhantering", Toast.LENGTH_SHORT).show();
             }
         });
 

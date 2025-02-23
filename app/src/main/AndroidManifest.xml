@@ -48,7 +48,7 @@
         <activity android:name=".MainActivity" android:exported="false"/>
         <activity android:name=".OrderActivity" android:exported="false"/>
         <activity android:name=".KitchenActivity" android:exported="false"/>
-        <activity android:name=".ManageOrdersActivity" android:exported="false"/>
+        <activity android:name=".ManagePersonalActivity" android:exported="false"/>
         <activity android:name=".BookingActivity" android:exported="false"/>
 
     </application>
