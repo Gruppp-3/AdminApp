@@ -13,9 +13,8 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-
 public interface ApiService {
-    // Booking endpoints
+    // Booking endpoints (keep these as they are)
     @GET("api/v1/bookings")
     Call<List<Booking>> getBookings();
 
@@ -31,16 +30,16 @@ public interface ApiService {
     @DELETE("api/v1/bookings/{id}")
     Call<Void> deleteBooking(@Path("id") int id);
 
-    // Menu endpoints
+    // Regular menu endpoints
     @GET("api/v1/menu")
     Call<List<MenuItem>> getMenuItems();
 
-    // Add these new lunch management endpoints
+    // Lunch menu endpoints - updated to match backend
     @GET("api/v1/lunch/today")
     Call<List<Map<String, Object>>> getTodayLunch();
 
     @GET("api/v1/lunch/weekly")
-    Call<Map<String, List<Map<String, Object>>>> getWeeklyLunch();
+    Call<Map<String, List<Map<String, Object>>>> getWeeklyLunch(); // Note: Return type changed
 
     @POST("api/v1/lunch/today")
     Call<Map<String, Object>> addLunchDish(@Body Map<String, Object> lunchDish);
@@ -50,5 +49,4 @@ public interface ApiService {
 
     @DELETE("api/v1/lunch/today/{id}")
     Call<Void> deleteLunchDish(@Path("id") Long id);
-
 }

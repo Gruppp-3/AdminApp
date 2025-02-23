@@ -1,5 +1,7 @@
 package com.example.restaurantorderapp;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,21 +13,28 @@ public class ManageMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_management);
+        Log.d("ManageMenuActivity", "Activity created");
 
         addMenuItemBtn = findViewById(R.id.addMenuItemBtn);
         editMenuItemBtn = findViewById(R.id.editMenuItemBtn);
         deleteMenuItemBtn = findViewById(R.id.deleteMenuItemBtn);
 
-        addMenuItemBtn.setOnClickListener(view -> {
-            // Lägg till funktionalitet för att lägga till menyobjekt
+        // Lägg till funktionalitet för att lägga till menyobjekt
+        addMenuItemBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ManageMenuActivity.this, LunchManagementActivity.class);
+            intent.putExtra("action", "add");
+            startActivity(intent);
         });
-
-        editMenuItemBtn.setOnClickListener(view -> {
-            // Lägg till funktionalitet för att redigera menyobjekt
+        editMenuItemBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ManageMenuActivity.this, LunchManagementActivity.class);
+            intent.putExtra("action", "edit");
+            startActivity(intent);
         });
-
-        deleteMenuItemBtn.setOnClickListener(view -> {
-            // Lägg till funktionalitet för att ta bort menyobjekt
+        // Lägg till funktionalitet för att ta bort menyobjekt
+        deleteMenuItemBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ManageMenuActivity.this, LunchManagementActivity.class);
+            intent.putExtra("action", "delete");
+            startActivity(intent);
         });
     }
 }

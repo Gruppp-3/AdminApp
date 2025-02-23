@@ -2,39 +2,58 @@ package com.example.restaurantorderapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AdminActivity extends AppCompatActivity {
-
-    private Button manageOrdersBtn, manageMenuBtn, bookingBtn; // Ändrat från viewStatsBtn till bookingBtn
+    private static final String TAG = "AdminActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+        Log.d(TAG, "AdminActivity created");
 
-        // Koppla knapparna från layout-filen
-        manageOrdersBtn = findViewById(R.id.manageOrdersBtn);
-        manageMenuBtn = findViewById(R.id.manageMenuBtn);
-        bookingBtn = findViewById(R.id.bookingBtn); // Ny knapp för bokning
+        // Find buttons
+        Button manageOrdersBtn = findViewById(R.id.manageOrdersBtn);
+        Button manageMenuBtn = findViewById(R.id.manageMenuBtn);
+        Button bookingBtn = findViewById(R.id.bookingBtn);
 
-        // Hantera beställningar
+        // Set up click listeners with error handling
         manageOrdersBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminActivity.this, ManageOrdersActivity.class);
-            startActivity(intent);
+            Log.d(TAG, "Orders button clicked");
+            try {
+                Intent intent = new Intent(AdminActivity.this, ManageOrdersActivity.class);
+                startActivity(intent);
+            } catch (Exception e) {
+                Log.e(TAG, "Error starting ManageOrdersActivity: " + e.getMessage());
+                Toast.makeText(this, "Kunde inte öppna beställningshantering", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        // Hantera meny
         manageMenuBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminActivity.this, ManageMenuActivity.class);
-            startActivity(intent);
+            Log.d(TAG, "Menu button clicked");
+            try {
+                Intent intent = new Intent(AdminActivity.this, ManageMenuActivity.class);
+                startActivity(intent);
+            } catch (Exception e) {
+                Log.e(TAG, "Error starting ManageMenuActivity: " + e.getMessage());
+                Toast.makeText(this, "Kunde inte öppna menyhantering", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        // Bokning (ersatt "Visa Statistik")
         bookingBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminActivity.this, BookingActivity.class);
-            startActivity(intent);
+            Log.d(TAG, "Booking button clicked");
+            try {
+                Intent intent = new Intent(AdminActivity.this, BookingActivity.class);
+                startActivity(intent);
+            } catch (Exception e) {
+                Log.e(TAG, "Error starting BookingActivity: " + e.getMessage());
+                Toast.makeText(this, "Kunde inte öppna bokningar", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }
