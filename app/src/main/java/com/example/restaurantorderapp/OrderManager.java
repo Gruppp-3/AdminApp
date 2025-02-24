@@ -47,18 +47,9 @@ public class OrderManager {
         return new ArrayList<>(readyOrders);
     }
 
-    public void removeOrderByTable(String tableNumber) {
-        Iterator<String> iterator = readyOrders.iterator();
-        while (iterator.hasNext()){
-            String orders = iterator.next();
-            if(orders.contains("Beställning för Bord " + tableNumber + " klar")){
-                iterator.remove();
-            }
-        }
-    }
-
-    public void clearOrders(){
-        orders.clear();
+    public void removeOrder(String tableNumber) {
+        List<String> orders = getOrders();
+        orders.removeIf(order -> order.startsWith("Beställning för Bord " + tableNumber + ":"));
     }
 
 

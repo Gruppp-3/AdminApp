@@ -21,12 +21,11 @@ public class KitchenActivity extends AppCompatActivity {
 
         ordersContainer = findViewById(R.id.ordersContainer);
 
-
-        // Fetch all orders
+        // Hämta alla beställningar
         List<String> allOrders = OrderManager.getInstance().getOrders();
         Map<String, StringBuilder> tableOrdersMap = new HashMap<>();
 
-        // Organize orders by table
+
         for (String order : allOrders) {
             String tableNumber = extractTableNumber(order);
             if (!tableOrdersMap.containsKey(tableNumber)) {
@@ -36,63 +35,71 @@ public class KitchenActivity extends AppCompatActivity {
         }
 
 
-        // Display tables and orders
         if (!tableOrdersMap.isEmpty()) {
             for (Map.Entry<String, StringBuilder> entry : tableOrdersMap.entrySet()) {
                 String tableNumber = entry.getKey();
                 String orderDetails = entry.getValue().toString();
 
-                // Linear Layout for each table row
+
                 LinearLayout orderRow = new LinearLayout(this);
                 orderRow.setOrientation(LinearLayout.HORIZONTAL);
                 orderRow.setPadding(0, 10, 0, 10);
 
-                // Table Number Text
+
                 TextView tableTextView = new TextView(this);
                 tableTextView.setText("Bord " + tableNumber);
                 tableTextView.setTextSize(20);
                 tableTextView.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
                 tableTextView.setPadding(0, 0, 20, 0);
 
-                // "Mat klar" Button
+
                 Button foodReadyButton = new Button(this);
                 foodReadyButton.setText("Mat klar");
-                foodReadyButton.setOnClickListener(v -> {
-                    OrderManager.getInstance().markOrderReady(tableNumber);
-                    Intent intent = new Intent(KitchenActivity.this, CentralScreenActivity.class);
-                    startActivity(intent);
-                });
 
 
-
-                // Add to orderRow layout
-                orderRow.addView(tableTextView);
-                orderRow.addView(foodReadyButton);
-
-                // Add to main container
-                ordersContainer.addView(orderRow);
-
-                // Order Details Below the Row
-                TextView orderDetailsText = new TextView(this);
+                final TextView orderDetailsText = new TextView(this);
                 orderDetailsText.setText(orderDetails);
                 orderDetailsText.setTextSize(18);
                 orderDetailsText.setPadding(40, 5, 0, 15);
+
+
+                orderRow.addView(tableTextView);
+                orderRow.addView(foodReadyButton);
+                ordersContainer.addView(orderRow);
                 ordersContainer.addView(orderDetailsText);
+
+
+                foodReadyButton.setOnClickListener(v -> {
+
+                    OrderManager.getInstance().markOrderReady(tableNumber);
+                    OrderManager.getInstance().removeOrder(tableNumber);
+
+
+                    ordersContainer.removeView(orderRow);
+                    ordersContainer.removeView(orderDetailsText);
+
+                    if (ordersContainer.getChildCount() == 0) {
+                        TextView noOrdersText = new TextView(KitchenActivity.this);
+                        noOrdersText.setText("Inga beställningar än");
+                        noOrdersText.setTextSize(20);
+                        noOrdersText.setPadding(0, 20, 0, 0);
+                        ordersContainer.addView(noOrdersText);
+                    }
+
+                    // Skicka ordern till centralaskärmen
+                    Intent intent = new Intent(KitchenActivity.this, CentralScreenActivity.class);
+                    startActivity(intent);
+                });
             }
         } else {
 
-            // No orders available
             TextView noOrdersText = new TextView(this);
             noOrdersText.setText("Inga beställningar än");
             noOrdersText.setTextSize(20);
             noOrdersText.setPadding(0, 20, 0, 0);
             ordersContainer.addView(noOrdersText);
         }
-
-
     }
-
-
 
     private String extractTableNumber(String orderSummary) {
         if (orderSummary.startsWith("Beställning för Bord ")) {
