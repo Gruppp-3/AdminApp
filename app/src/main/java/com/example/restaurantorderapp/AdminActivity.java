@@ -7,10 +7,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 public class AdminActivity extends AppCompatActivity {
     private static final String TAG = "AdminActivity";
-    private Button manageStaffBtn, manageMenuBtn, bookingBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,43 +16,39 @@ public class AdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin);
         Log.d(TAG, "AdminActivity created");
 
-        // Find buttons
-        manageStaffBtn = findViewById(R.id.manageStaffBtn);
-        manageMenuBtn = findViewById(R.id.manageMenuBtn);
-        bookingBtn = findViewById(R.id.bookingBtn);
+        setupButtons();
+    }
 
-        // Set up click listeners with error handling
-        manageStaffBtn.setOnClickListener(view -> {
-            Log.d(TAG, "Manage Staff button clicked");
-            try {
-                Intent intent = new Intent(AdminActivity.this, ManagePersonalActivity.class);
-                startActivity(intent);
-            } catch (Exception e) {
-                Log.e(TAG, "Error starting ManagePersonalActivity: " + e.getMessage());
-                Toast.makeText(this, "Kunde inte öppna personalhantering", Toast.LENGTH_SHORT).show();
-            }
+    private void setupButtons() {
+        // Find and setup Orders button
+        Button manageOrdersBtn = findViewById(R.id.manageOrdersBtn);
+        manageOrdersBtn.setOnClickListener(view -> {
+            Log.d(TAG, "Orders button clicked");
+            startActivityWithErrorHandling(ManageOrdersActivity.class, "Kunde inte öppna beställningshantering");
         });
 
-        manageMenuBtn.setOnClickListener(view -> {
-            Log.d(TAG, "Menu button clicked");
-            try {
-                Intent intent = new Intent(AdminActivity.this, ManageMenuActivity.class);
-                startActivity(intent);
-            } catch (Exception e) {
-                Log.e(TAG, "Error starting ManageMenuActivity: " + e.getMessage());
-                Toast.makeText(this, "Kunde inte öppna menyhantering", Toast.LENGTH_SHORT).show();
-            }
+        // Find and setup Lunch Management button
+        Button lunchManagementBtn = findViewById(R.id.lunchManagementBtn);
+        lunchManagementBtn.setOnClickListener(v -> {
+            Log.d(TAG, "Lunch management button clicked");
+            startActivityWithErrorHandling(LunchManagementActivity.class, "Kunde inte öppna lunchhantering");
         });
 
+        // Find and setup Booking button
+        Button bookingBtn = findViewById(R.id.bookingBtn);
         bookingBtn.setOnClickListener(view -> {
             Log.d(TAG, "Booking button clicked");
-            try {
-                Intent intent = new Intent(AdminActivity.this, BookingActivity.class);
-                startActivity(intent);
-            } catch (Exception e) {
-                Log.e(TAG, "Error starting BookingActivity: " + e.getMessage());
-                Toast.makeText(this, "Kunde inte öppna bokningar", Toast.LENGTH_SHORT).show();
-            }
+            startActivityWithErrorHandling(BookingActivity.class, "Kunde inte öppna bokningar");
         });
+    }
+
+    private void startActivityWithErrorHandling(Class<?> activityClass, String errorMessage) {
+        try {
+            Intent intent = new Intent(AdminActivity.this, activityClass);
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e(TAG, "Error starting " + activityClass.getSimpleName() + ": " + e.getMessage());
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+        }
     }
 }

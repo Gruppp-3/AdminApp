@@ -20,10 +20,14 @@
             android:name=".WelcomeActivity"
             android:exported="true"
             android:launchMode="singleTop">
+
+            <!-- Uncomment this to make this page a launcher page
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            -->
         </activity>
 
         <!-- Admin related activities -->
@@ -32,10 +36,17 @@
             android:exported="false"
             android:noHistory="true"/> <!-- This prevents going back to login -->
 
+        <!-- Change WelcomeActivity to AdminActivity in the launcher intent-filter -->
         <activity
             android:name=".AdminActivity"
-            android:exported="false"
-            android:launchMode="singleTop"/> <!-- This prevents multiple instances -->
+            android:exported="true"
+            android:launchMode="singleTop">
+            <!-- remove below to make welcomeActivity the launcher -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
         <!-- Rest of your activities -->
         <activity
@@ -43,12 +54,14 @@
             android:label="Lägg till lunch"
             android:parentActivityName=".LunchManagementActivity" />
         <activity android:name=".EditLunchItemActivity" android:exported="false"/>
+        <activity android:name=".WeeklyMenuPlanningActivity" android:exported="false"/>
+
         <activity android:name=".ManageMenuActivity" android:exported="false"/>
         <activity android:name=".LunchManagementActivity" android:exported="false"/>
         <activity android:name=".MainActivity" android:exported="false"/>
         <activity android:name=".OrderActivity" android:exported="false"/>
         <activity android:name=".KitchenActivity" android:exported="false"/>
-        <activity android:name=".ManagePersonalActivity" android:exported="false"/>
+        <activity android:name=".ManageOrdersActivity" android:exported="false"/>
         <activity android:name=".BookingActivity" android:exported="false"/>
 
     </application>

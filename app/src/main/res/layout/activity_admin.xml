@@ -30,22 +30,22 @@
 
     <!-- Knappar -->
     <Button
-        android:id="@+id/manageStaffBtn"
+        android:id="@+id/manageOrdersBtn"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:text="Hantera Personal"
+        android:text="Hantera Beställningar"
         android:backgroundTint="@color/purple_500"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:layout_marginBottom="12dp"/>
 
     <Button
-        android:id="@+id/manageMenuBtn"
+        android:id="@+id/lunchManagementBtn"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_marginBottom="12dp"
         android:backgroundTint="@color/purple_500"
-        android:text="Hantera Meny"
+        android:text="Hantera Lunch"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
