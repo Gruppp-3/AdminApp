@@ -21,7 +21,7 @@ public class KitchenActivity extends AppCompatActivity {
 
         ordersContainer = findViewById(R.id.ordersContainer);
 
-        // Hämta alla beställningar
+
         List<String> allOrders = OrderManager.getInstance().getOrders();
         Map<String, StringBuilder> tableOrdersMap = new HashMap<>();
 

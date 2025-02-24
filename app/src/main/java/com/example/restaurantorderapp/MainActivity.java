@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         tableGrid = findViewById(R.id.tableGrid);
         tableGrid.setColumnCount(2); // Anpassa för både mobil och iPad
 
+
         for (String table : tables) {
             Button tableButton = new Button(this);
             tableButton.setText(table);

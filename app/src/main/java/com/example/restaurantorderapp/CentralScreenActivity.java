@@ -23,7 +23,7 @@ public class CentralScreenActivity extends AppCompatActivity {
 
         LinearLayout ordersContainer = findViewById(R.id.ordersContainer);
 
-        // Fetch all completed orders
+
         List<String> readyOrders = OrderManager.getInstance().getReadyOrders();
         // Store orders grouped by tables
         Map<String, StringBuilder> tablesOrdersMap = new HashMap<>();
