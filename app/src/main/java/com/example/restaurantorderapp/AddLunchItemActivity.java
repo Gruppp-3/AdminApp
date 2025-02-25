@@ -1,8 +1,10 @@
 package com.example.restaurantorderapp;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.restaurantorderapp.api.ApiService;
@@ -37,6 +39,15 @@ public class AddLunchItemActivity extends AppCompatActivity {
         apiService = RetrofitClient.getInstance().getApi();
         setupViews();
         setupListeners();
+        setupSpinner();
+    }
+
+    private void setupSpinner() {
+        Spinner daySpinner = findViewById(R.id.daySpinner);
+        String[] days = {"Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"};
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, days);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        daySpinner.setAdapter(spinnerAdapter);
     }
 
     private void setupViews() {
@@ -98,23 +109,22 @@ public class AddLunchItemActivity extends AppCompatActivity {
         lunchItem.put("dish_price", Double.parseDouble(priceInput.getText().toString().trim()));
         lunchItem.put("dish_description", descriptionInput.getText().toString().trim());
 
-        // Get the lunch type and the day (if applicable)
-        String lunchType = getIntent().getStringExtra("lunchType");
-        lunchItem.put("lunchType", lunchType);
+        // Use the spinner's selected day to compute the target date.
+        Spinner daySpinner = findViewById(R.id.daySpinner);
+        String selectedDay = daySpinner.getSelectedItem().toString();
+        String targetDate = getTargetDateForDay(selectedDay);
 
-        if ("WEEKLY".equalsIgnoreCase(lunchType)) {
-            String day = getIntent().getStringExtra("day"); // e.g., "Onsdag"
-            int offset = getDayOffset(day);
-            String targetDate = getTargetDateString(offset);
-            lunchItem.put("date", targetDate);
-            lunchItem.put("day", day); // Optional, if you need to send back the day.
-        } else {
-            // For daily lunches, just use today's date.
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            lunchItem.put("date", sdf.format(new Date()));
+        lunchItem.put("date", targetDate);
+        lunchItem.put("day", selectedDay); // Required currently, why?
+
+
+        // Optionally, include the lunch type if your backend requires it.
+        String lunchType = getIntent().getStringExtra("lunchType");
+        if(lunchType != null){
+            lunchItem.put("lunchType", lunchType);
         }
 
-        // Now send the lunchItem map via your API call
+        // Now send the lunchItem map via the API call.
         Call<Map<String, Object>> call = apiService.addLunchDish(lunchItem);
         call.enqueue(new Callback<Map<String, Object>>() {
             @Override
@@ -132,7 +142,6 @@ public class AddLunchItemActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<Map<String, Object>> call, Throwable t) {
                 Toast.makeText(AddLunchItemActivity.this, "Nätverksfel: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -140,38 +149,28 @@ public class AddLunchItemActivity extends AppCompatActivity {
         });
     }
 
-    private String getTargetDateString(int offset) {
-        // Get the current date and time.
-        Calendar calendar = Calendar.getInstance();
 
-        // Advance to the next Monday.
-        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
-            calendar.add(Calendar.DATE, 1);
+    // Helper method to compute day offset
+    private String getTargetDateForDay(String day) {
+        int offset;
+        switch(day) {
+            case "Måndag": offset = 0; break;
+            case "Tisdag": offset = 1; break;
+            case "Onsdag": offset = 2; break;
+            case "Torsdag": offset = 3; break;
+            case "Fredag": offset = 4; break;
+            case "Lördag": offset = 5; break;
+            case "Söndag": offset = 6; break;
+            default: throw new IllegalArgumentException("Invalid day: " + day);
         }
-        // Move to the Monday of the upcoming week (even if today is Monday).
-        calendar.add(Calendar.DATE, 7);
-
-        // Add the offset (0 for Monday, 1 for Tuesday, etc.).
+        Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         calendar.add(Calendar.DATE, offset);
-
-        // Format the date as "yyyy-MM-dd".
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return sdf.format(calendar.getTime());
     }
 
 
-    // Helper method to compute day offset
-    private int getDayOffset(String day) {
-        switch (day) {
-            case "Måndag": return 0;
-            case "Tisdag": return 1;
-            case "Onsdag": return 2;
-            case "Torsdag": return 3;
-            case "Fredag": return 4;
-            case "Lördag": return 5;
-            case "Söndag": return 6;
-            default: throw new IllegalArgumentException("Invalid day: " + day);
-        }
-    }
 
 }

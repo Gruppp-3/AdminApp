@@ -98,7 +98,7 @@ public class LunchManagementActivity extends AppCompatActivity {
         addFab.setOnClickListener(v -> {
             new MaterialAlertDialogBuilder(this)
                     .setTitle("Välj menytyp")
-                    .setItems(new String[]{"Lägg till dagens lunch", "Planera veckans meny"}, (dialog, which) -> {
+                    .setItems(new String[]{"Lägg till lunchalternativ", "Planera lunchsedel för kommande vecka"}, (dialog, which) -> {
                         if (which == 0) {
                             Intent intent = new Intent(this, AddLunchItemActivity.class);
                             intent.putExtra("lunchType", "DAILY");
@@ -110,15 +110,11 @@ public class LunchManagementActivity extends AppCompatActivity {
                     })
                     .show();
         });
-
-        MaterialButton filterButton = findViewById(R.id.filterButton);
-        filterButton.setOnClickListener(view ->
-                Toast.makeText(this, "Filter button clicked", Toast.LENGTH_SHORT).show()
-        );
     }
 
     private void checkForWeeklyMenuUpdate() {
         Calendar calendar = Calendar.getInstance();
+        // Prompts the user every sunday to plan weekly menu
         if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
             new MaterialAlertDialogBuilder(this)
                     .setTitle("Uppdatera veckomenyn")
@@ -171,8 +167,6 @@ public class LunchManagementActivity extends AppCompatActivity {
             }
         });
     }
-
-    //HEJSAN
 
     private void loadWeeklyLunch() {
         apiService.getWeeklyLunch().enqueue(new Callback<Map<String, List<Map<String, Object>>>>() {
