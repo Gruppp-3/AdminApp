@@ -25,7 +25,6 @@ public interface ApiService {
 
     @POST("api/v1/bookings")
     Call<Booking> createBooking(@Body Booking booking);
-
     @PUT("api/v1/bookings/{id}")
     Call<Booking> updateBooking(@Path("id") int id, @Body Booking booking);
 

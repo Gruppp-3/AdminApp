@@ -30,10 +30,10 @@
 
     <!-- Knappar -->
     <Button
-        android:id="@+id/manageOrdersBtn"
+        android:id="@+id/manageStaffBtn"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:text="Hantera Beställningar"
+        android:text="Hantera Personal"
         android:backgroundTint="@color/purple_500"
         android:textColor="@android:color/white"
         android:textSize="18sp"

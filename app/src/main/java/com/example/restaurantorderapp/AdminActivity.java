@@ -21,10 +21,10 @@ public class AdminActivity extends AppCompatActivity {
 
     private void setupButtons() {
         // Find and setup Orders button
-        Button manageOrdersBtn = findViewById(R.id.manageOrdersBtn);
+        Button manageOrdersBtn = findViewById(R.id.manageStaffBtn);
         manageOrdersBtn.setOnClickListener(view -> {
             Log.d(TAG, "Orders button clicked");
-            startActivityWithErrorHandling(ManageOrdersActivity.class, "Kunde inte öppna beställningshantering");
+            startActivityWithErrorHandling(ManagePersonalActivity.class, "Kunde inte öppna beställningshantering");
         });
 
         // Find and setup Lunch Management button
