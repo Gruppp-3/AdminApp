@@ -1,6 +1,4 @@
-package com.example.restaurantorderapp;
-
-import static android.content.ContentValues.TAG;
+package com.example.restaurantorderapp.lunch;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +9,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.example.restaurantorderapp.R;
 import com.example.restaurantorderapp.adapter.LunchAdapter;
 import com.example.restaurantorderapp.api.ApiService;
 import com.example.restaurantorderapp.api.RetrofitClient;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -152,18 +150,18 @@ public class LunchManagementActivity extends AppCompatActivity {
                     header.put("dayName", "Dagens Lunch");
                     items.add(header);
 
-                    items.addAll(response.body());
-                    adapter.updateData(items);
+                    items.addAll(response.body());  // Add the menu data
+                    adapter.updateData(items);  // Update the adapter with new data
                 } else {
-                    showError("Kunde inte ladda dagens lunch-meny");
+                    showError("Kunde inte ladda dagens lunch-meny. Statuskod: " + response.code());
                 }
-                showLoading(false);
+                showLoading(false);  // Hide progress bar
             }
 
             @Override
             public void onFailure(Call<List<Map<String, Object>>> call, Throwable t) {
                 showError("Nätverksfel: " + t.getMessage());
-                showLoading(false);
+                showLoading(false);  // Hide progress bar
             }
         });
     }
@@ -175,20 +173,21 @@ public class LunchManagementActivity extends AppCompatActivity {
                                    Response<Map<String, List<Map<String, Object>>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Map<String, List<Map<String, Object>>> weeklyMenu = response.body();
-                    updateWeeklyAdapter(weeklyMenu);
+                    updateWeeklyAdapter(weeklyMenu);  // Process and update the weekly menu
                 } else {
-                    showError("Kunde inte ladda veckans lunch-meny");
+                    showError("Kunde inte ladda veckans lunch-meny. Statuskod: " + response.code());
                 }
-                showLoading(false);
+                showLoading(false);  // Hide progress bar
             }
 
             @Override
             public void onFailure(Call<Map<String, List<Map<String, Object>>>> call, Throwable t) {
                 showError("Nätverksfel: " + t.getMessage());
-                showLoading(false);
+                showLoading(false);  // Hide progress bar
             }
         });
     }
+
 
 
     // Flattens the weekly menu map (key: day, value: list of dish maps) into a single list with headers.

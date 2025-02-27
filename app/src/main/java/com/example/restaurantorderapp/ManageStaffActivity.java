@@ -11,7 +11,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ManagePersonalActivity extends AppCompatActivity {
+public class ManageStaffActivity extends AppCompatActivity {
     private EditText staffNameInput;
     private EditText staffRoleInput;
     private EditText staffDateInput;

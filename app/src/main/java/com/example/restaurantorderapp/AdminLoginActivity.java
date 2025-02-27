@@ -35,7 +35,7 @@ public class AdminLoginActivity extends AppCompatActivity {
             if (username.equals("") && password.equals("")) {
                 try {
                     Log.d(TAG, "Login successful, attempting to start AdminActivity");
-                    Intent intent = new Intent(AdminLoginActivity.this, AdminActivity.class);
+                    Intent intent = new Intent(AdminLoginActivity.this, MainActivity.class);
                     // Try without flags first
                     startActivity(intent);
                     Log.d(TAG, "Started AdminActivity");

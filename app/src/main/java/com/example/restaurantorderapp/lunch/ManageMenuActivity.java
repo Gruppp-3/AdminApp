@@ -1,9 +1,11 @@
-package com.example.restaurantorderapp;
+package com.example.restaurantorderapp.lunch;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.restaurantorderapp.R;
 
 public class ManageMenuActivity extends AppCompatActivity {
 

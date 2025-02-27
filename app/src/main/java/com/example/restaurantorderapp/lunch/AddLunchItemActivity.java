@@ -1,4 +1,4 @@
-package com.example.restaurantorderapp;
+package com.example.restaurantorderapp.lunch;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -7,16 +7,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.restaurantorderapp.R;
 import com.example.restaurantorderapp.api.ApiService;
 import com.example.restaurantorderapp.api.RetrofitClient;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;

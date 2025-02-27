@@ -49,6 +49,17 @@
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
+    <!-- New à la carte button -->
+    <Button
+        android:id="@+id/alacarteManagementBtn"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/purple_500"
+        android:text="Hantera À la carte"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
     <Button
         android:id="@+id/bookingBtn"
         android:layout_width="250dp"

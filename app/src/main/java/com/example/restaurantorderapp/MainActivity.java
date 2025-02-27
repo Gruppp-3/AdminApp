@@ -2,13 +2,15 @@ package com.example.restaurantorderapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.restaurantorderapp.alacarte.AlacarteMenuManagementActivity;
+import com.example.restaurantorderapp.lunch.LunchManagementActivity;
+
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,32 +21,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupButtons() {
+        // Staff management button
         Button manageStaffBtn = findViewById(R.id.manageStaffBtn);
-        manageStaffBtn.setOnClickListener(view -> {
-            Log.d(TAG, "Manage staff button clicked");
-            startActivityWithErrorHandling(ManagePersonalActivity.class, "Kunde inte öppna personalhantering");
+        manageStaffBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ManageStaffActivity.class);
+                startActivity(intent);
+            }
         });
 
+        // Lunch management button
         Button lunchManagementBtn = findViewById(R.id.lunchManagementBtn);
-        lunchManagementBtn.setOnClickListener(v -> {
-            Log.d(TAG, "Lunch management button clicked");
-            startActivityWithErrorHandling(LunchManagementActivity.class, "Kunde inte öppna lunchhantering");
+        lunchManagementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LunchManagementActivity.class);
+                startActivity(intent);
+            }
         });
 
+        // À la carte management button
+        Button alacarteManagementBtn = findViewById(R.id.alacarteManagementBtn);
+        alacarteManagementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AlacarteMenuManagementActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Booking button
         Button bookingBtn = findViewById(R.id.bookingBtn);
-        bookingBtn.setOnClickListener(view -> {
-            Log.d(TAG, "Booking button clicked");
-            startActivityWithErrorHandling(BookingActivity.class, "Kunde inte öppna bokningar");
+        bookingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BookingActivity.class);
+                startActivity(intent);
+            }
         });
-    }
-
-    private void startActivityWithErrorHandling(Class<?> activityClass, String errorMessage) {
-        try {
-            Intent intent = new Intent(MainActivity.this, activityClass);
-            startActivity(intent);
-        } catch (Exception e) {
-            Log.e(TAG, "Error starting " + activityClass.getSimpleName() + ": " + e.getMessage());
-            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
-        }
     }
 }

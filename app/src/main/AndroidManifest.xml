@@ -26,11 +26,21 @@
         </activity>
 
         <activity
-            android:name=".ManagePersonalActivity"
+            android:name=".ManageStaffActivity"
             android:exported="false" />
 
         <activity
-            android:name=".LunchManagementActivity"
+            android:name=".lunch.LunchManagementActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".alacarte.AlacarteMenuManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".alacarte.AddMenuItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".alacarte.EditMenuItemActivity"
             android:exported="false" />
 
         <activity
@@ -38,12 +48,12 @@
             android:exported="false" />
 
         <activity
-            android:name=".AddLunchItemActivity"
+            android:name=".lunch.AddLunchItemActivity"
             android:exported="false"
-            android:parentActivityName=".LunchManagementActivity" />
+            android:parentActivityName=".lunch.LunchManagementActivity" />
 
         <activity
-            android:name=".EditLunchItemActivity"
+            android:name=".lunch.EditLunchItemActivity"
             android:exported="false" />
 
         <!-- Add other necessary activities here -->

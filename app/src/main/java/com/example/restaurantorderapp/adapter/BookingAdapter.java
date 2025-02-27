@@ -56,8 +56,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         TextView textName;
         TextView textDateTime;
         TextView textTableStatus;
-        TextView textPeopleCount;  // Added field for people count
-        //Button buttonEdit;
+        TextView textPeopleCount;
         Button buttonDelete;
 
         BookingViewHolder(View itemView) {
@@ -65,8 +64,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
             textName = itemView.findViewById(R.id.textName);
             textDateTime = itemView.findViewById(R.id.textDateTime);
             textTableStatus = itemView.findViewById(R.id.textTableStatus);
-            textPeopleCount = itemView.findViewById(R.id.textPeopleCount);  // Initialize new TextView
-            //buttonEdit = itemView.findViewById(R.id.buttonEdit);
+            textPeopleCount = itemView.findViewById(R.id.textPeopleCount);
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
         }
 

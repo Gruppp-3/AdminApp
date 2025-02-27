@@ -6,7 +6,7 @@
     android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".lunch.LunchManagementActivity">
+    tools:context=".AlacarteMenuManagementActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:id="@+id/titleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hantera Lunch"
+                android:text="Hantera À la carte meny"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"
@@ -37,11 +37,19 @@
                 android:layout_marginBottom="16dp">
 
                 <Spinner
-                    android:id="@+id/lunchTypeSpinner"
+                    android:id="@+id/categorySpinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:minHeight="48dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/filterButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filtrera"
+                    android:layout_marginStart="8dp"
+                    app:cornerRadius="8dp"/>
 
             </LinearLayout>
 
@@ -51,12 +59,12 @@
                 android:layout_weight="1">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/lunchRecyclerView"
+                    android:id="@+id/alacarteRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
                     android:scrollbars="vertical"
-                    tools:listitem="@layout/lunch_item_layout"/>
+                    tools:listitem="@layout/menu_item_layout"/>
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -71,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Ingen lunch tillagd än"
+                    android:text="Ingen maträtt tillagd än"
                     android:textSize="16sp"
                     android:visibility="gone"
                     tools:visibility="visible"/>
@@ -81,12 +89,12 @@
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addLunchFab"
+            android:id="@+id/addDishFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:contentDescription="Lägg till ny lunchrätt"
+            android:contentDescription="Lägg till ny maträtt"
             app:srcCompat="@android:drawable/ic_input_add"
             app:fabSize="normal"
             app:elevation="6dp"/>
