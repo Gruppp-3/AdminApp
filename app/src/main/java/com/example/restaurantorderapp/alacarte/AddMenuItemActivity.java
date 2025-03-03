@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.restaurantorderapp.R;
 import com.example.restaurantorderapp.api.ApiService;
 import com.example.restaurantorderapp.api.RetrofitClient;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +41,8 @@ public class AddMenuItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_menu_item);
+
+        Log.d(TAG, "onCreate: Initializing AddMenuItemActivity");
 
         // Set up toolbar with back button
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -64,17 +67,20 @@ public class AddMenuItemActivity extends AppCompatActivity {
         setupCategorySpinner();
 
         // Set up save button click listener
-        saveButton.setOnClickListener(v -> validateAndSave());
+        saveButton.setOnClickListener(v -> {
+            Log.d(TAG, "Save button clicked");
+            validateAndSave();
+        });
     }
 
     private void setupCategorySpinner() {
         // Display categories in Swedish for UI
         String[] categories = {"Välj kategori", "Förrätt", "Varmrätt", "Efterrätt", "Dryck"};
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
+        Log.d(TAG, "Category spinner set up with categories: " + String.join(", ", categories));
     }
 
     private void validateAndSave() {
@@ -84,21 +90,27 @@ public class AddMenuItemActivity extends AppCompatActivity {
         String priceStr = priceEditText.getText().toString().trim();
         int categoryPosition = categorySpinner.getSelectedItemPosition();
 
+        Log.d(TAG, "validateAndSave: name=" + name + ", description=" + description +
+                ", priceStr=" + priceStr + ", categoryPosition=" + categoryPosition);
+
         // Validate inputs
         if (TextUtils.isEmpty(name)) {
             nameEditText.setError("Ange ett namn");
             nameEditText.requestFocus();
+            Log.d(TAG, "Validation failed: name is empty");
             return;
         }
 
         if (TextUtils.isEmpty(priceStr)) {
             priceEditText.setError("Ange ett pris");
             priceEditText.requestFocus();
+            Log.d(TAG, "Validation failed: price is empty");
             return;
         }
 
         if (categoryPosition == 0) {
             Toast.makeText(this, "Välj en kategori", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Validation failed: no category selected");
             return;
         }
 
@@ -121,6 +133,7 @@ public class AddMenuItemActivity extends AppCompatActivity {
                 apiCategory = "OTHER";
                 break;
         }
+        Log.d(TAG, "Category mapped to API value: " + apiCategory);
 
         // Create menu item object
         Map<String, Object> menuItem = new HashMap<>();
@@ -128,6 +141,7 @@ public class AddMenuItemActivity extends AppCompatActivity {
         menuItem.put("dish_description", description);
         menuItem.put("dish_price", Double.parseDouble(priceStr));
         menuItem.put("dish_type", apiCategory);
+        Log.d(TAG, "Menu item data prepared: " + menuItem.toString());
 
         // Show progress and disable button
         progressBar.setVisibility(View.VISIBLE);
@@ -143,6 +157,7 @@ public class AddMenuItemActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(AddMenuItemActivity.this,
                             "Maträtt tillagd!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Menu item added successfully");
                     setResult(RESULT_OK);
                     finish();
                 } else {
@@ -167,6 +182,7 @@ public class AddMenuItemActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "onOptionsItemSelected: itemId=" + item.getItemId());
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;

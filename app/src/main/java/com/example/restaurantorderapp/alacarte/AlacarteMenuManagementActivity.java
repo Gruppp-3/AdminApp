@@ -98,7 +98,6 @@ public class AlacarteMenuManagementActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
             }
         });
     }
@@ -217,8 +216,8 @@ public class AlacarteMenuManagementActivity extends AppCompatActivity {
     private void showDeleteConfirmationDialog(Map<String, Object> item) {
         Log.d("DEBUG", "Item data: " + item.toString()); // Log the full item object
 
-        Object idObject = item.get("id"); // Extract the ID from the map
-
+        // Look for the ID field using the correct key "DISH_ID"
+        Object idObject = item.get("DISH_ID");
         Log.d("DEBUG", "Extracted ID object: " + idObject); // Log the extracted ID
 
         if (idObject == null) {
@@ -248,6 +247,7 @@ public class AlacarteMenuManagementActivity extends AppCompatActivity {
             Toast.makeText(this, "Fel: Ogiltigt ID-format", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void deleteMenuItem(long itemId) {
         apiService.deleteMenuItem(itemId).enqueue(new Callback<Void>() {

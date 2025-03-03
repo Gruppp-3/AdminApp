@@ -21,7 +21,7 @@ public interface ApiService {
 
     // Veckoplanering
     @GET("api/v1/lunch/nextWeekly")
-    Call<Map<String, List<Map<String, Object>>>> getNextWeeklyLunch();
+    Call<Map<String, List<Map<String, Object>>>> getNextWeeklyLunchMenu();
 
     @POST("api/v1/lunch/today")
     Call<Map<String, Object>> addLunchDish(@Body Map<String, Object> lunchDish);

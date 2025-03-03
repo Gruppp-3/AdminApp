@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,21 +63,32 @@ public class WeeklyMenuPlanningActivity extends AppCompatActivity {
     }
 
     private void setupDayContainer(String day) {
-        // Get resource IDs dynamically
-        String recyclerViewId = day.toLowerCase() + "RecyclerView";
-        String buttonId = "add" + day + "DishButton";
+        // Map Swedish day name to resource fragment
+        String resourceDay = getResourceDayName(day);
+
+        // Build resource IDs using the resourceDay
+        String recyclerViewId = resourceDay + "RecyclerView";
+        String buttonId = "add" + Character.toUpperCase(resourceDay.charAt(0)) + resourceDay.substring(1) + "DishButton";
+        String dateTextViewId = resourceDay + "DateTextView";
 
         int recyclerViewResId = getResources().getIdentifier(recyclerViewId, "id", getPackageName());
         int buttonResId = getResources().getIdentifier(buttonId, "id", getPackageName());
+        int dateTextResId = getResources().getIdentifier(dateTextViewId, "id", getPackageName());
 
         RecyclerView recyclerView = findViewById(recyclerViewResId);
         if (recyclerView == null) {
             Log.e(TAG, "Could not find RecyclerView with ID: " + recyclerViewId);
             return;
         }
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         dayRecyclerViews.put(day, recyclerView);
+
+        // Calculate and set the upcoming date for this day
+        String upcomingDate = getUpcomingDateForDay(day);
+        TextView dateTextView = findViewById(dateTextResId);
+        if(dateTextView != null) {
+            dateTextView.setText(upcomingDate);
+        }
 
         List<Map<String, Object>> dishes = new ArrayList<>();
         LunchAdapter adapter = new LunchAdapter(dishes, "WEEKLY", this::onDishClick);
@@ -91,6 +103,33 @@ public class WeeklyMenuPlanningActivity extends AppCompatActivity {
             Log.e(TAG, "Could not find Button with ID: " + buttonId);
         }
     }
+
+
+    // Helper method to add dishes to correct dates
+    private String getUpcomingDateForDay(String day) {
+        Calendar calendar = Calendar.getInstance();
+        // Since this function runs only on Sundays, add 1 day to get Monday.
+        calendar.add(Calendar.DATE, 1);
+
+        int offset = 0;
+        switch(day) {
+            case "Måndag": offset = 0; break;
+            case "Tisdag": offset = 1; break;
+            case "Onsdag": offset = 2; break;
+            case "Torsdag": offset = 3; break;
+            case "Fredag": offset = 4; break;
+            case "Lördag": offset = 5; break;
+            case "Söndag": offset = 6; break;
+            default:
+                Log.e(TAG, "Invalid day: " + day);
+                break;
+        }
+        calendar.add(Calendar.DATE, offset);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sdf.format(calendar.getTime());
+    }
+
+
 
     private void startAddLunchActivity(String day) {
         Intent intent = new Intent(this, AddLunchItemActivity.class);
@@ -145,24 +184,29 @@ public class WeeklyMenuPlanningActivity extends AppCompatActivity {
 
 
     private void loadExistingWeeklyMenu() {
-        apiService.getWeeklyLunch().enqueue(new retrofit2.Callback<Map<String, List<Map<String, Object>>>>() {
+        // Use the endpoint for the upcoming week (next week's menu)
+        apiService.getNextWeeklyLunchMenu().enqueue(new retrofit2.Callback<Map<String, List<Map<String, Object>>>>() {
             @Override
             public void onResponse(retrofit2.Call<Map<String, List<Map<String, Object>>>> call,
                                    retrofit2.Response<Map<String, List<Map<String, Object>>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     weeklyMenu = response.body();
                     updateAllAdapters();
+                } else {
+                    Toast.makeText(WeeklyMenuPlanningActivity.this,
+                            "Kunde inte ladda kommande veckans meny: " + response.code(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<Map<String, List<Map<String, Object>>>> call, Throwable t) {
                 Toast.makeText(WeeklyMenuPlanningActivity.this,
-                        "Kunde inte ladda befintlig meny: " + t.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                        "Nätverksfel: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     private void updateAllAdapters() {
         for (String day : WEEKDAYS) {
@@ -172,6 +216,20 @@ public class WeeklyMenuPlanningActivity extends AppCompatActivity {
             }
         }
     }
+
+    private String getResourceDayName(String day) {
+        switch(day) {
+            case "Måndag": return "monday";
+            case "Tisdag": return "tisdag";
+            case "Onsdag": return "onsdag";
+            case "Torsdag": return "torsdag";
+            case "Fredag": return "fredag";
+            case "Lördag": return "lordag";  // Note: your XML uses "lordagRecyclerView" for Lördag.
+            case "Söndag": return "sondag";
+            default: return day.toLowerCase();
+        }
+    }
+
 
     private void onDishClick(Map<String, Object> dish) {
         new MaterialAlertDialogBuilder(this)

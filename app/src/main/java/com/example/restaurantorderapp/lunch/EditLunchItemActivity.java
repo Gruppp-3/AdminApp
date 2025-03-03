@@ -103,12 +103,13 @@ public class EditLunchItemActivity extends AppCompatActivity {
         String description = descriptionInput.getText().toString().trim();
 
         Map<String, Object> updatedLunchItem = new HashMap<>();
+        // Use lowercase keys here to match the backend
         updatedLunchItem.put("dish_name", name);
         updatedLunchItem.put("dish_price", price);
         updatedLunchItem.put("dish_description", description);
 
-        // Fix the type casting issue here
-        Object rawId = lunchItem.get("id");
+        // Extract the ID using the uppercase key from the JSON
+        Object rawId = lunchItem.get("DISH_ID");
         Long itemId;
         if (rawId instanceof Double) {
             itemId = ((Double) rawId).longValue();
@@ -136,4 +137,5 @@ public class EditLunchItemActivity extends AppCompatActivity {
             }
         });
     }
+
 }

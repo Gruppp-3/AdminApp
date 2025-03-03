@@ -85,7 +85,7 @@ public class EditMenuItemActivity extends AppCompatActivity {
 
     private void setupCategorySpinner() {
         // Display categories in Swedish for UI
-        String[] categories = {"Välj kategori", "Förrätt", "Varmrätt", "Efterrätt", "Dryck"};
+        String[] categories = {"Välj kategori", "Förrätt", "Varmrätt", "Efterrätt", "Vegatariska", "Dryck"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, categories);
@@ -94,36 +94,48 @@ public class EditMenuItemActivity extends AppCompatActivity {
     }
 
     private void populateFields(Map<String, Object> item) {
-        // Extract ID
-        Object idObj = item.get("dish_id");
+        // Extract ID using the correct field name "DISH_ID"
+        Object idObj = item.get("DISH_ID");
         if (idObj instanceof Number) {
             menuItemId = ((Number) idObj).longValue();
         }
 
-        // Set name
-        String name = (String) item.get("dish_name");
+        // Set name using the correct field name "DISH_NAME"
+        String name = (String) item.get("DISH_NAME");
         if (name != null) {
             nameEditText.setText(name);
         }
 
-        // Set description
-        String description = (String) item.get("dish_description");
+        // Set description using the correct field name "DISH_DESCRIPTION"
+        String description = (String) item.get("DISH_DESCRIPTION");
         if (description != null) {
             descriptionEditText.setText(description);
         }
 
-        // Set price
-        Object priceObj = item.get("dish_price");
+        // Set price using the correct field name "DISH_PRICE"
+        Object priceObj = item.get("DISH_PRICE");
         if (priceObj instanceof Number) {
             double price = ((Number) priceObj).doubleValue();
             priceEditText.setText(String.valueOf(price));
         }
 
-        // Set category
-        String category = (String) item.get("dish_type");
-        if (category != null) {
-            int position = getCategoryPosition(category);
+        // Set category using the correct field name "DISH_TYPE_NAME"
+        String categoryType = (String) item.get("DISH_TYPE_NAME");
+        if (categoryType != null) {
+            // You may need to update your getCategoryPosition method to handle the Swedish category names
+            int position = getCategoryPosition(mapCategoryNameToType(categoryType));
             categorySpinner.setSelection(position);
+        }
+    }
+
+    // Add this method to map Swedish category names to API category types
+    private String mapCategoryNameToType(String categoryName) {
+        switch (categoryName) {
+            case "Förrätter": return "APPETIZER";
+            case "Varmrätter": return "MAIN";
+            case "Efterrätter": return "DESSERT";
+            case "Vegetariskt": return "VEGETARIAN";
+            default: return "OTHER";
         }
     }
 
@@ -132,10 +144,12 @@ public class EditMenuItemActivity extends AppCompatActivity {
             case "APPETIZER": return 1;
             case "MAIN": return 2;
             case "DESSERT": return 3;
-            case "DRINK": return 4;
+            case "VEGETARIAN": return 4;
+            case "DRINK": return 5;
             default: return 0;
         }
     }
+
 
     private void validateAndUpdate() {
         if (menuItemId == null) {
@@ -180,6 +194,9 @@ public class EditMenuItemActivity extends AppCompatActivity {
                 apiCategory = "DESSERT";
                 break;
             case 4:
+                apiCategory = "VEGETARIAN";
+                break;
+            case 5:
                 apiCategory = "DRINK";
                 break;
             default:
@@ -187,12 +204,13 @@ public class EditMenuItemActivity extends AppCompatActivity {
                 break;
         }
 
+
         // Create updated menu item object
         Map<String, Object> updatedItem = new HashMap<>();
-        updatedItem.put("dish_name", name);
-        updatedItem.put("dish_description", description);
-        updatedItem.put("dish_price", Double.parseDouble(priceStr));
-        updatedItem.put("dish_type", apiCategory);
+        updatedItem.put("DISH_NAME", name);
+        updatedItem.put("DISH_DESCRIPTION", description);
+        updatedItem.put("DISH_PRICE", Double.parseDouble(priceStr));
+        updatedItem.put("DISH_TYPE_NAME", apiCategory);
 
         // Show progress and disable button
         progressBar.setVisibility(View.VISIBLE);
