@@ -1,7 +1,6 @@
 package com.example.restaurantorderapp.api;
 
 import com.example.restaurantorderapp.model.Booking;
-
 import retrofit2.Call;
 import retrofit2.http.*;
 import java.util.List;
@@ -17,12 +16,7 @@ public interface ApiService {
 
     @POST("api/v1/lunch/weekly")
     Call<Void> createWeeklyMenu(@Body Map<String, List<Map<String, Object>>> weeklyMenu,
-                                @Query("startDate") String startDate);
-
-    // Veckoplanering
-    @GET("api/v1/lunch/nextWeekly")
-    Call<Map<String, List<Map<String, Object>>>> getNextWeeklyLunchMenu();
-
+                                @Query("startOfWeek") String startOfWeek);
     @POST("api/v1/lunch/today")
     Call<Map<String, Object>> addLunchDish(@Body Map<String, Object> lunchDish);
 
@@ -44,6 +38,7 @@ public interface ApiService {
 
     @POST("api/v1/menu")
     Call<Void> addMenuItem(@Body Map<String, Object> menuItem);
+
     @PUT("api/v1/menu/{id}")
     Call<Map<String, Object>> updateMenuItem(@Path("id") Long id, @Body Map<String, Object> menuItem);
 
@@ -60,7 +55,6 @@ public interface ApiService {
     @POST("api/v1/bookings")
     Call<Map<String, Object>> createBooking(@Body Map<String, Object> booking);
 
-    // Match Booking Class
     @DELETE("api/v1/bookings/{id}")
     Call<Void> deleteBooking(@Path("id") Integer id);
 
