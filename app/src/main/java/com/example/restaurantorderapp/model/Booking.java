@@ -2,7 +2,6 @@ package com.example.restaurantorderapp.model;
 
 public class Booking {
     private Integer bookingId;
-    private Integer tableNumber;
     private String name;
     private String email;
     private String phone;
@@ -25,14 +24,6 @@ public class Booking {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getTableNumber() {
-        return tableNumber;
-    }
-
-    public void setTableNumber(Integer tableNumber) {
-        this.tableNumber = tableNumber;
     }
 
     public String getDate() {

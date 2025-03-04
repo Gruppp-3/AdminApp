@@ -79,15 +79,10 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
             textDateTime.setText(String.format("Datum: %s, Tid: %s",
                     booking.getDate(), formattedTime));
 
-            // Set table number
-            String displayTable = "Bord " + booking.getTableNumber().toString();
-            textTableStatus.setText(displayTable);
-
             // Set people count
             String displayPeople = "Antal gäster: " + booking.getPeopleCount().toString();
             textPeopleCount.setText(displayPeople);
 
-            //buttonEdit.setOnClickListener(v -> listener.onEdit(booking));
             buttonDelete.setOnClickListener(v -> listener.onDelete(booking));
         }
     }
