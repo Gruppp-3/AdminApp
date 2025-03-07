@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restaurantorderapp.alacarte.AlacarteMenuManagementActivity;
 import com.example.restaurantorderapp.lunch.LunchManagementActivity;
+import com.example.restaurantorderapp.workshift.MonthlyScheduleActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,14 +20,14 @@ public class MainActivity extends AppCompatActivity {
 
         setupButtons();
     }
-
     private void setupButtons() {
+
         // Staff management button
         Button manageStaffBtn = findViewById(R.id.manageStaffBtn);
         manageStaffBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ManageStaffActivity.class);
+                Intent intent = new Intent(MainActivity.this, MonthlyScheduleActivity.class);
                 startActivity(intent);
             }
         });

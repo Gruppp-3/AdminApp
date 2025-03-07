@@ -1,6 +1,9 @@
 package com.example.restaurantorderapp.api;
 
 import com.example.restaurantorderapp.model.Booking;
+import com.example.restaurantorderapp.model.Employee;
+import com.example.restaurantorderapp.model.WorkShift;
+
 import retrofit2.Call;
 import retrofit2.http.*;
 import java.util.List;
@@ -26,9 +29,6 @@ public interface ApiService {
     @DELETE("api/v1/lunch/today/{id}")
     Call<Void> deleteLunchDish(@Path("id") Long id);
 
-    @GET("api/v1/lunch/validate-date")
-    Call<Boolean> validateLunchDate(@Query("date") String date);
-
     // Alacarte Menu Endpoints
     @GET("api/v1/menu")
     Call<List<Map<String, Object>>> getMenu();
@@ -48,23 +48,28 @@ public interface ApiService {
     // Booking endpoints
     @GET("api/v1/bookings")
     Call<List<Booking>> getBookings();
-
-    @GET("api/v1/bookings/date/{date}")
-    Call<List<Map<String, Object>>> getBookingsByDate(@Path("date") String date);
-
-    @POST("api/v1/bookings")
-    Call<Map<String, Object>> createBooking(@Body Map<String, Object> booking);
-
     @DELETE("api/v1/bookings/{id}")
     Call<Void> deleteBooking(@Path("id") Integer id);
 
-    // Order endpoints
-    @GET("api/v1/orders/active")
-    Call<List<Map<String, Object>>> getActiveOrders();
+    // Employee endpoints
+    @GET("api/employees")
+    Call<List<Employee>> getAllEmployees();
 
-    @POST("api/v1/orders")
-    Call<Map<String, Object>> createOrder(@Body Map<String, Object> order);
+    // WorkShift endpoints
+    @GET("api/workshifts")
+    Call<List<WorkShift>> getAllWorkShifts();
 
-    @PUT("api/v1/orders/{id}/status")
-    Call<Void> updateOrderStatus(@Path("id") Long id, @Body Map<String, String> statusUpdate);
+    @GET("api/workshifts/employee/{employeeId}")
+    Call<List<WorkShift>> getWorkShiftsByEmployee(@Path("employeeId") Long employeeId);
+
+    @POST("api/workshifts")
+    Call<WorkShift> createWorkShift(@Body WorkShift workShift);
+
+    @PUT("api/workshifts/{id}")
+    Call<WorkShift> updateWorkShift(@Path("id") Long id, @Body WorkShift workShift);
+
+    @DELETE("api/workshifts/{id}")
+    Call<Void> deleteWorkShift(@Path("id") Long id);
+
+
 }

@@ -10,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.restaurantorderapp.R;
 import com.example.restaurantorderapp.api.ApiService;
 import com.example.restaurantorderapp.api.RetrofitClient;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +21,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-// EditLunchItemActivity.java
 public class EditLunchItemActivity extends AppCompatActivity {
     private EditText nameInput;
     private EditText priceInput;
@@ -26,6 +28,7 @@ public class EditLunchItemActivity extends AppCompatActivity {
     private Button updateButton;
     private Map<String, Object> lunchItem;
     private ApiService apiService;
+    private Long itemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,23 @@ public class EditLunchItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_lunch_item);
 
         apiService = RetrofitClient.getInstance().getApi();
-        lunchItem = (Map<String, Object>) getIntent().getSerializableExtra("lunchItem");
+
+        // Retrieve lunch item data
+        String lunchItemJson = getIntent().getStringExtra("lunchItem");
+        if (lunchItemJson != null) {
+            // Parse JSON directly
+            Gson gson = new Gson();
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            lunchItem = gson.fromJson(lunchItemJson, type);
+
+            // Explicitly extract ID
+            Object rawId = lunchItem.get("id");
+            if (rawId instanceof Number) {
+                itemId = ((Number) rawId).longValue();
+            } else if (rawId != null) {
+                itemId = Long.valueOf(rawId.toString());
+            }
+        }
 
         setupViews();
         populateFields();
@@ -56,9 +75,11 @@ public class EditLunchItemActivity extends AppCompatActivity {
     }
 
     private void populateFields() {
-        nameInput.setText((String) lunchItem.get("dish_name"));
-        priceInput.setText(String.valueOf(lunchItem.get("dish_price")));
-        descriptionInput.setText((String) lunchItem.get("dish_description"));
+        if (lunchItem != null) {
+            nameInput.setText(String.valueOf(lunchItem.get("dish_name")));
+            priceInput.setText(String.valueOf(lunchItem.get("dish_price")));
+            descriptionInput.setText(String.valueOf(lunchItem.get("dish_description")));
+        }
     }
 
     private boolean validateInput() {
@@ -98,26 +119,19 @@ public class EditLunchItemActivity extends AppCompatActivity {
     }
 
     private void updateLunchItem() {
+        if (itemId == null) {
+            Toast.makeText(this, "Ingen ID hittades", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String name = nameInput.getText().toString().trim();
         double price = Double.parseDouble(priceInput.getText().toString().trim());
         String description = descriptionInput.getText().toString().trim();
 
         Map<String, Object> updatedLunchItem = new HashMap<>();
-        // Use lowercase keys here to match the backend
         updatedLunchItem.put("dish_name", name);
         updatedLunchItem.put("dish_price", price);
         updatedLunchItem.put("dish_description", description);
-
-        // Extract the ID using the uppercase key from the JSON
-        Object rawId = lunchItem.get("DISH_ID");
-        Long itemId;
-        if (rawId instanceof Double) {
-            itemId = ((Double) rawId).longValue();
-        } else if (rawId instanceof Long) {
-            itemId = (Long) rawId;
-        } else {
-            itemId = Long.valueOf(rawId.toString());
-        }
 
         apiService.updateLunchDish(itemId, updatedLunchItem).enqueue(new Callback<Map<String, Object>>() {
             @Override
@@ -127,7 +141,7 @@ public class EditLunchItemActivity extends AppCompatActivity {
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    Toast.makeText(EditLunchItemActivity.this, "Fel vid uppdatering", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditLunchItemActivity.this, "Fel vid uppdatering: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -137,5 +151,4 @@ public class EditLunchItemActivity extends AppCompatActivity {
             }
         });
     }
-
 }

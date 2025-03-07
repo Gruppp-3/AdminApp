@@ -39,7 +39,7 @@ dependencies {
 
     implementation(libs.constraintlayout)
 
-
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.14.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // Retrofit

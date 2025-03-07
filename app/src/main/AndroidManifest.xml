@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name=".ManageStaffActivity"
+            android:name=".workshift.MonthlyScheduleActivity"
             android:exported="false" />
 
         <activity
@@ -60,7 +60,6 @@
             android:name=".lunch.WeeklyMenuPlanningActivity"
             android:exported="false" />
 
-        <!-- Add other necessary activities here -->
 
     </application>
 

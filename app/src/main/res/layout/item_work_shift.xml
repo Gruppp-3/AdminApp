@@ -1,0 +1,75 @@
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvShiftDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025-04-01"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvShiftTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="08:00 - 16:00"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:id="@+id/tvEmployeeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ej tilldelad"
+                android:textStyle="italic"
+                android:textColor="#757575"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnAssignEmployee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tilldela"
+                android:textSize="12sp"
+                android:padding="8dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
+
+            <Button
+                android:id="@+id/btnDeleteShift"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="X"
+                android:textColor="#FF0000"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                android:contentDescription="Delete shift" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

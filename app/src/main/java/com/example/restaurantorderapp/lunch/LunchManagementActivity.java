@@ -16,6 +16,8 @@ import com.example.restaurantorderapp.api.ApiService;
 import com.example.restaurantorderapp.api.RetrofitClient;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+
 import java.io.Serializable;
 import java.util.*;
 import retrofit2.Call;
@@ -235,8 +237,10 @@ public class LunchManagementActivity extends AppCompatActivity {
                 .setTitle("Hantera lunch")
                 .setItems(new String[]{"Redigera", "Ta bort"}, (dialog, which) -> {
                     if (which == 0) {
+                        Gson gson = new Gson();
+                        String lunchItemJson = gson.toJson(item);
                         Intent intent = new Intent(this, EditLunchItemActivity.class);
-                        intent.putExtra("lunchItem", (Serializable) item);
+                        intent.putExtra("lunchItem", lunchItemJson);
                         intent.putExtra("lunchType", currentType);
                         startActivityForResult(intent, EDIT_LUNCH_REQUEST);
                     } else {
