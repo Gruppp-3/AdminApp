@@ -1,25 +1,13 @@
 package com.example.restaurantorderapp.model;
 
-import com.google.gson.annotations.SerializedName;
-
 public class WorkShift {
-
-    @SerializedName("id")
     private Long id;
-
-    @SerializedName("startTime")
     private String startTime;
-
-    @SerializedName("endTime")
     private String endTime;
-
-    @SerializedName("description")
     private String description;
-
-    @SerializedName("employee")
     private Employee employee;
 
-    // Getters and setters
+    // Getters and Setters
     public Long getId() {
         return id;
     }

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantorderapp.R;
@@ -16,13 +17,13 @@ import com.example.restaurantorderapp.model.WorkShift;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.WorkShiftViewHolder> {
 
+    private static final String TAG = "WorkShiftAdapter";
     private List<WorkShift> workShifts;
     private Context context;
     private OnShiftActionListener listener;
@@ -91,7 +92,7 @@ public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.Work
             holder.btnAssignEmployee.setText("Ändra"); // Change button text to "Edit"
 
             // Log the employee name for debugging
-            Log.d("WorkShiftAdapter", "Shift ID: " + workShift.getId() +
+            Log.d(TAG, "Shift ID: " + workShift.getId() +
                     " assigned to employee: " + employeeName +
                     " (ID: " + workShift.getEmployee().getId() + ")");
         } else {
@@ -99,21 +100,84 @@ public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.Work
             holder.btnAssignEmployee.setText("Tilldela"); // "Assign"
 
             // Log that this shift is unassigned
-            Log.d("WorkShiftAdapter", "Shift ID: " + workShift.getId() + " is unassigned");
+            Log.d(TAG, "Shift ID: " + workShift.getId() + " is unassigned");
         }
 
-        // Set button listeners
+        // Set button listeners with logging for debugging
         holder.btnDeleteShift.setOnClickListener(v -> {
             if (listener != null) {
+                Log.d(TAG, "Delete button clicked for shift ID: " + workShift.getId());
                 listener.onDeleteShift(workShift);
             }
         });
 
         holder.btnAssignEmployee.setOnClickListener(v -> {
             if (listener != null) {
+                Log.d(TAG, "Assign/Change button clicked for shift ID: " + workShift.getId());
                 listener.onAssignEmployee(workShift);
             }
         });
+
+        // Add click listener for the entire item view
+        holder.itemView.setOnClickListener(v -> {
+            // Show action dialog when item is clicked
+            showWorkshiftActionDialog(workShift);
+        });
+    }
+
+    private void showWorkshiftActionDialog(WorkShift workShift) {
+        // Create and show the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Hantera arbetspass");
+
+        // Format shift info for dialog
+        try {
+            Date startDate = apiDateFormat.parse(workShift.getStartTime());
+            Date endDate = apiDateFormat.parse(workShift.getEndTime());
+
+            if (startDate != null && endDate != null) {
+                String dateStr = displayDayFormat.format(startDate);
+                String timeStr = displayTimeFormat.format(startDate) +
+                        " - " +
+                        displayTimeFormat.format(endDate);
+
+                String employeeStr;
+                if (workShift.getEmployee() != null) {
+                    employeeStr = workShift.getEmployee().getFirstName() +
+                            " " +
+                            workShift.getEmployee().getLastName();
+                } else {
+                    employeeStr = "Ej tilldelad";
+                }
+
+                builder.setMessage(dateStr + "\n" + timeStr + "\n" + employeeStr);
+            }
+        } catch (ParseException e) {
+            // Fallback message if parsing fails
+            builder.setMessage("ID: " + workShift.getId());
+        }
+
+        // Add action buttons with specific text
+        builder.setPositiveButton(workShift.getEmployee() != null ? "Ändra tilldelning" : "Tilldela till anställd",
+                (dialog, which) -> {
+                    if (listener != null) {
+                        // Call the assignment method which is already implemented in your activity
+                        listener.onAssignEmployee(workShift);
+                        Log.d(TAG, "Assigning/changing employee for shift ID: " + workShift.getId());
+                    }
+                });
+
+        // Always add the delete button
+        builder.setNeutralButton("Ta bort arbetspass", (dialog, which) -> {
+            if (listener != null) {
+                // Call the delete method which is already implemented in your activity
+                listener.onDeleteShift(workShift);
+                Log.d(TAG, "Deleting shift ID: " + workShift.getId());
+            }
+        });
+
+        builder.setNegativeButton("Avbryt", null);
+        builder.show();
     }
 
     @Override

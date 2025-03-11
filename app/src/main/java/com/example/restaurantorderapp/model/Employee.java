@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Employee {
 
-    @SerializedName("employeeId")
+    @SerializedName("id")
     private Long id;
 
     @SerializedName("firstName")

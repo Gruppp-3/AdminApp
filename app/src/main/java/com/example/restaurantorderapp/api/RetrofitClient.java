@@ -52,7 +52,7 @@ public class RetrofitClient {
             }
 
             if (jsonObject.has("phoneNumber")) {
-                employee.setPhoneNumber(jsonObject.get("phoneNumber").getAsString());
+                //employee.set(jsonObject.get("phoneNumber").getAsString());
             } else if (jsonObject.has("phone_number")) {
                 employee.setPhoneNumber(jsonObject.get("phone_number").getAsString());
             }
