@@ -6,7 +6,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.restaurantorderapp.alacarte.AlacarteMenuManagementActivity;
 import com.example.restaurantorderapp.employee.EmployeeManagementActivity;
+import com.example.restaurantorderapp.lunch.LunchManagementActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,17 +30,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Add other button click listeners here as needed
+        // Lunch Management
         lunchManagementBtn.setOnClickListener(v -> {
-            // TODO: Implement lunch management navigation
+            Intent intent = new Intent(MainActivity.this, LunchManagementActivity.class);
+            startActivity(intent);
         });
 
         alacarteManagementBtn.setOnClickListener(v -> {
-            // TODO: Implement à la carte management navigation
+            Intent intent = new Intent(MainActivity.this, AlacarteMenuManagementActivity.class);
+            startActivity(intent);
         });
 
         bookingBtn.setOnClickListener(v -> {
-            // TODO: Implement booking management navigation
+            Intent intent = new Intent(MainActivity.this, BookingActivity.class);
+            startActivity(intent);
         });
     }
 }
