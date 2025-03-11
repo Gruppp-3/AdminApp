@@ -18,39 +18,63 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <RadioGroup
+        android:id="@+id/viewToggleGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <RadioButton
+            android:id="@+id/radioMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Månad"
+            android:checked="true"
+            android:layout_marginEnd="8dp" />
+
+        <RadioButton
+            android:id="@+id/radioWeek"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vecka" />
+    </RadioGroup>
+
     <LinearLayout
-        android:id="@+id/monthNavigationLayout"
+        android:id="@+id/timeNavigationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/titleTextView">
+        app:layout_constraintTop_toBottomOf="@id/viewToggleGroup">
 
         <ImageButton
-            android:id="@+id/btnPreviousMonth"
+            android:id="@+id/btnPrevious"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@android:drawable/ic_media_previous"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Föregående månad" />
+            android:contentDescription="Previous" />
 
         <TextView
-            android:id="@+id/tvCurrentMonth"
+            android:id="@+id/tvCurrentPeriod"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="April 2025"
             android:textSize="18sp"
-            android:layout_marginHorizontal="24dp"
-            tools:text="April 2025" />
+            android:layout_marginHorizontal="24dp" />
 
         <ImageButton
-            android:id="@+id/btnNextMonth"
+            android:id="@+id/btnNext"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@android:drawable/ic_media_next"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Nästa månad" />
+            android:contentDescription="Next" />
     </LinearLayout>
 
     <LinearLayout
@@ -61,7 +85,7 @@
         android:gravity="center_vertical"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/monthNavigationLayout">
+        app:layout_constraintTop_toBottomOf="@id/timeNavigationLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -104,7 +128,7 @@
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Inga arbetspass hittades för den valda månaden"
+        android:text="Inga arbetspass hittades för den valda perioden"
         android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="@id/recyclerView"

@@ -1,16 +1,14 @@
 package com.example.restaurantorderapp.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantorderapp.R;
@@ -18,6 +16,7 @@ import com.example.restaurantorderapp.model.WorkShift;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -28,14 +27,14 @@ public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.Work
     private Context context;
     private OnShiftActionListener listener;
 
-    // Simplified date formatters
-    private SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault());
-    private SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private SimpleDateFormat outputTimeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private SimpleDateFormat apiDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+    private SimpleDateFormat displayDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private SimpleDateFormat displayTimeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private SimpleDateFormat displayDayFormat = new SimpleDateFormat("EEE d MMM", Locale.getDefault());
 
     public interface OnShiftActionListener {
-        void onAssignEmployee(WorkShift workShift);
         void onDeleteShift(WorkShift workShift);
+        void onAssignEmployee(WorkShift workShift);
     }
 
     public WorkShiftAdapter(List<WorkShift> workShifts, Context context, OnShiftActionListener listener) {
@@ -47,57 +46,72 @@ public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.Work
     @NonNull
     @Override
     public WorkShiftViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_work_shift, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_work_shift, parent, false);
         return new WorkShiftViewHolder(view);
     }
-
-
 
     @Override
     public void onBindViewHolder(@NonNull WorkShiftViewHolder holder, int position) {
         WorkShift workShift = workShifts.get(position);
 
         try {
-            // Parse dates
-            Date startDate = inputDateFormat.parse(workShift.getStartTime());
-            Date endDate = inputDateFormat.parse(workShift.getEndTime());
+            // Parse dates for display
+            Date startDate = apiDateFormat.parse(workShift.getStartTime());
+            Date endDate = apiDateFormat.parse(workShift.getEndTime());
 
-            // Format and set date and time text
-            holder.tvShiftDate.setText(outputDateFormat.format(startDate));
+            if (startDate != null && endDate != null) {
+                // Set the date (e.g., "Mon 15 Apr")
+                holder.tvShiftDate.setText(displayDayFormat.format(startDate));
 
-            String timeRange = outputTimeFormat.format(startDate) + " - " +
-                    outputTimeFormat.format(endDate);
-            holder.tvShiftTime.setText(timeRange);
-
+                // Set the time (e.g., "08:00 - 16:00")
+                String timeRange = displayTimeFormat.format(startDate) +
+                        " - " +
+                        displayTimeFormat.format(endDate);
+                holder.tvShiftTime.setText(timeRange);
+            } else {
+                // Fallback if parsing fails
+                holder.tvShiftDate.setText(workShift.getStartTime().substring(0, 10));
+                holder.tvShiftTime.setText("Time not available");
+            }
         } catch (ParseException e) {
-            // Fallback if there's a parsing error
-            holder.tvShiftDate.setText("Invalid date");
-            holder.tvShiftTime.setText(workShift.getStartTime() + " - " + workShift.getEndTime());
+            // Fallback if parsing fails
+            holder.tvShiftDate.setText(workShift.getStartTime().substring(0, 10));
+            holder.tvShiftTime.setText("Time not available");
         }
 
-        // Set employee name if available, otherwise show "Unassigned"
-        if (workShift.getEmployee() != null) {
-            holder.tvEmployeeName.setText(workShift.getEmployeeName());
-            holder.tvEmployeeName.setTextColor(context.getResources().getColor(android.R.color.black, null));
-            holder.tvEmployeeName.setTypeface(null, Typeface.ITALIC);
-            holder.btnAssignEmployee.setText("Ändra");
+        // Set employee name
+        if (workShift.getEmployee() != null &&
+                workShift.getEmployee().getFirstName() != null &&
+                workShift.getEmployee().getLastName() != null) {
+
+            String employeeName = workShift.getEmployee().getFirstName() + " " +
+                    workShift.getEmployee().getLastName();
+            holder.tvEmployeeName.setText(employeeName);
+            holder.btnAssignEmployee.setText("Ändra"); // Change button text to "Edit"
+
+            // Log the employee name for debugging
+            Log.d("WorkShiftAdapter", "Shift ID: " + workShift.getId() +
+                    " assigned to employee: " + employeeName +
+                    " (ID: " + workShift.getEmployee().getId() + ")");
         } else {
             holder.tvEmployeeName.setText("Ej tilldelad");
-            holder.tvEmployeeName.setTextColor(context.getResources().getColor(android.R.color.darker_gray, null));
-            holder.tvEmployeeName.setTypeface(null, Typeface.ITALIC);
-            holder.btnAssignEmployee.setText("Tilldela");
+            holder.btnAssignEmployee.setText("Tilldela"); // "Assign"
+
+            // Log that this shift is unassigned
+            Log.d("WorkShiftAdapter", "Shift ID: " + workShift.getId() + " is unassigned");
         }
 
-        // Set button click listeners
-        holder.btnAssignEmployee.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onAssignEmployee(workShift);
-            }
-        });
-
+        // Set button listeners
         holder.btnDeleteShift.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onDeleteShift(workShift);
+            }
+        });
+
+        holder.btnAssignEmployee.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onAssignEmployee(workShift);
             }
         });
     }
@@ -107,19 +121,14 @@ public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.Work
         return workShifts.size();
     }
 
-    public void updateData(List<WorkShift> newShifts) {
-        this.workShifts = newShifts;
-        notifyDataSetChanged();
-    }
-
-    public static class WorkShiftViewHolder extends RecyclerView.ViewHolder {
+    static class WorkShiftViewHolder extends RecyclerView.ViewHolder {
         TextView tvShiftDate;
         TextView tvShiftTime;
         TextView tvEmployeeName;
         Button btnAssignEmployee;
         Button btnDeleteShift;
 
-        public WorkShiftViewHolder(@NonNull View itemView) {
+        WorkShiftViewHolder(View itemView) {
             super(itemView);
             tvShiftDate = itemView.findViewById(R.id.tvShiftDate);
             tvShiftTime = itemView.findViewById(R.id.tvShiftTime);
