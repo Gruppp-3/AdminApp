@@ -21,7 +21,7 @@
         android:id="@+id/adminTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Admin Panel"
+        android:text="Adminpanel"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@color/black"

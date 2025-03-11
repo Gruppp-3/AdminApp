@@ -10,6 +10,23 @@ import java.util.List;
 import java.util.Map;
 
 public interface ApiService {
+
+    // Employee endpoints
+    @GET("api/employees")
+    Call<List<Employee>> getAllEmployees();
+    @GET("api/employees/{id}")
+    Call<Employee> getEmployeeById(@Path("id") Long id);
+    @Headers("Content-Type: application/json")
+    @POST("api/employees")
+    Call<Employee> createEmployee(@Body Employee employee);
+
+    @Headers("Content-Type: application/json")
+    @PUT("api/employees/{id}")
+    Call<Employee> updateEmployee(@Path("id") Long id, @Body Employee employee);
+
+    @DELETE("api/employees/{id}")
+    Call<Void> deleteEmployee(@Path("id") Long id);
+
     // Lunch menu endpoints
     @GET("api/v1/lunch/today")
     Call<List<Map<String, Object>>> getTodayLunch();
@@ -50,10 +67,6 @@ public interface ApiService {
     Call<List<Booking>> getBookings();
     @DELETE("api/v1/bookings/{id}")
     Call<Void> deleteBooking(@Path("id") Integer id);
-
-    // Employee endpoints
-    @GET("api/employees")
-    Call<List<Employee>> getAllEmployees();
 
     // WorkShift endpoints
     @GET("api/workshifts")

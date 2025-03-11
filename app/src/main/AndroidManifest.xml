@@ -30,6 +30,11 @@
             android:exported="false" />
 
         <activity
+            android:name=".employee.EmployeeManagementActivity"
+            android:exported="false"
+            android:label="Hantera Personal" />
+
+        <activity
             android:name=".lunch.LunchManagementActivity"
             android:exported="false" />
 

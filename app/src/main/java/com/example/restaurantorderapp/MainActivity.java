@@ -2,14 +2,11 @@ package com.example.restaurantorderapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restaurantorderapp.alacarte.AlacarteMenuManagementActivity;
-import com.example.restaurantorderapp.lunch.LunchManagementActivity;
-import com.example.restaurantorderapp.workshift.MonthlyScheduleActivity;
+import com.example.restaurantorderapp.employee.EmployeeManagementActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,48 +15,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setupButtons();
-    }
-    private void setupButtons() {
-
-        // Staff management button
+        // Find buttons
         Button manageStaffBtn = findViewById(R.id.manageStaffBtn);
-        manageStaffBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MonthlyScheduleActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Lunch management button
         Button lunchManagementBtn = findViewById(R.id.lunchManagementBtn);
-        lunchManagementBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LunchManagementActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // À la carte management button
         Button alacarteManagementBtn = findViewById(R.id.alacarteManagementBtn);
-        alacarteManagementBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AlacarteMenuManagementActivity.class);
-                startActivity(intent);
-            }
+        Button bookingBtn = findViewById(R.id.bookingBtn);
+
+        // Set click listeners
+        manageStaffBtn.setOnClickListener(v -> {
+            // Navigate to the Employee Management screen
+            Intent intent = new Intent(MainActivity.this, EmployeeManagementActivity.class);
+            startActivity(intent);
         });
 
-        // Booking button
-        Button bookingBtn = findViewById(R.id.bookingBtn);
-        bookingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, BookingActivity.class);
-                startActivity(intent);
-            }
+        // Add other button click listeners here as needed
+        lunchManagementBtn.setOnClickListener(v -> {
+            // TODO: Implement lunch management navigation
+        });
+
+        alacarteManagementBtn.setOnClickListener(v -> {
+            // TODO: Implement à la carte management navigation
+        });
+
+        bookingBtn.setOnClickListener(v -> {
+            // TODO: Implement booking management navigation
         });
     }
 }

@@ -51,8 +51,9 @@ public class RetrofitClient {
                 employee.setLastName(jsonObject.get("last_name").getAsString());
             }
 
+
             if (jsonObject.has("phoneNumber")) {
-                //employee.set(jsonObject.get("phoneNumber").getAsString());
+                employee.setPhoneNumber(jsonObject.get("phoneNumber").getAsString());
             } else if (jsonObject.has("phone_number")) {
                 employee.setPhoneNumber(jsonObject.get("phone_number").getAsString());
             }
